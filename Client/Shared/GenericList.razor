@@ -1,0 +1,28 @@
+﻿@typeparam TElement
+
+@if (Loading)
+{
+    <MudProgressCircular Indeterminate="true" Size="Size.Small" Color="Color.Secondary"/>
+    <MudText Typo="Typo.caption">Chargement...</MudText>
+}
+else
+{
+    if (Elements.Count == 0)
+    {
+        <MudAlert Severity="Severity.Info">Aucune donnée trouvé.</MudAlert>
+    }
+    else
+    {
+        @ChildContent
+    }
+}
+
+
+
+
+
+@code {
+    [Parameter] public List<TElement> Elements { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public bool Loading { get; set; } = false;
+}

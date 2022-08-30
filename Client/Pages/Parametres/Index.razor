@@ -1,0 +1,105 @@
+﻿@page "/settings"
+
+@inject IDialogService dialogService
+@inject ISnackbar snackBar
+
+<Title Titre="Paramètres"/>
+<MudPaper>
+    <MudToolBar Dense="true">
+        <MudText Typo="Typo.h6">Paramètres</MudText>
+    </MudToolBar>
+</MudPaper>
+
+<MudGrid Class="mt-5" Style="padding:20px;">
+    <MudItem xs="12" sm="6" md="4" lg="4">
+        <MudPaper Class="p-4">
+            <div class="d-flex flex-row">
+                <MudAvatar Size="Size.Large" Style="background-color:transparent;">
+                    <MudIcon Icon="@Icons.Material.Filled.Storage" Color="Color.Primary" Class="mx-4" Size="Size.Large"/>
+                </MudAvatar>
+                <div class="ml-6">
+                    <MudLink Style="cursor:pointer;" Underline="Underline.None" Typo="Typo.h6" @onclick="@(() => getDataDb())">Moteur de base de données</MudLink>
+                    <MudText Typo="Typo.body2">Administration des moteurs de base de données disponible.</MudText>
+                </div>
+            </div>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="6" md="4" lg="4">
+        <MudPaper Class="p-4">
+            <div class="d-flex flex-row">
+                <MudAvatar Size="Size.Large" Style="background-color:transparent;">
+                    <MudIcon Icon="@Icons.Material.Filled.AppSettingsAlt" Color="Color.Primary" Class="mx-4" Size="Size.Large" />
+                </MudAvatar>
+                <div class="ml-6">
+                    <MudLink Style="cursor:pointer;" Underline="Underline.None" Typo="Typo.h6" @onclick="@(()=>getVersionDb())">Versions de base de données</MudLink>
+                    <MudText Typo="Typo.body2">Gestion des versions de Base de données.</MudText>
+                </div>
+            </div>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="6" md="4" lg="4">
+        <MudPaper Class="p-4">
+            <div class="d-flex flex-row">
+                <MudAvatar Size="Size.Large" Style="background-color:transparent;">
+                    <MudIcon Icon="@Icons.Custom.Brands.Microsoft" Color="Color.Primary" Class="mx-4" Size="Size.Large" />
+                </MudAvatar>
+                <div class="ml-6">
+                    <MudLink Style="cursor:pointer;" Underline="Underline.None" Typo="Typo.h6" @onclick="@(()=>getOs())">Systèmes d'exploitation</MudLink>
+                    <MudText Typo="Typo.body2">Gestion des principaux systèmes utilisés.</MudText>
+                </div>
+            </div>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="6" md="4" lg="4">
+        <MudPaper Class="p-4">
+            <div class="d-flex flex-row">
+                <MudAvatar Size="Size.Large" Style="background-color:transparent;">
+                    <MudIcon Icon="@Icons.Material.Filled.SettingsSystemDaydream" Color="Color.Primary" Class="mx-4" Size="Size.Large" />
+                </MudAvatar>
+                <div class="ml-6">
+                    <MudLink Underline="Underline.None" Typo="Typo.h6" Style="cursor:pointer;" @onclick="@(()=>getVersionOs())">Versions de systèmes d'exploitation</MudLink>
+                    <MudText Typo="Typo.body2">Gestion de toutes les versions de systèmes disponibles.</MudText>
+                </div>
+            </div>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="6" md="4" lg="4">
+        <MudPaper Class="p-4">
+            <div class="d-flex flex-row">
+                <MudAvatar Size="Size.Large" Style="background-color:transparent;">
+                    <MudIcon Icon="@Icons.Material.Filled.Engineering" Color="Color.Primary" Class="mx-4" Size="Size.Large" />
+                </MudAvatar>
+                <div class="ml-6">
+                    <MudLink Underline="Underline.None" Typo="Typo.h6" @onclick="@(()=>getEnv())" Style="cursor:pointer;">Environnements</MudLink>
+                    <MudText Typo="Typo.body2">Gestion des environnements disponible.</MudText>
+                </div>
+            </div>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="6" md="4" lg="4">
+        <MudPaper Class="p-4">
+            <div class="d-flex flex-row">
+                <MudAvatar Size="Size.Large" Style="background-color:transparent;">
+                    <MudIcon Icon="@Icons.Material.Filled.Workspaces" Color="Color.Primary" Class="mx-4" Size="Size.Large" />
+                </MudAvatar>
+                <div class="ml-6">
+                    <MudLink Underline="Underline.None" Typo="Typo.h6" @onclick="@(()=>getDomaine())" Style="cursor:pointer;">Domaines</MudLink>
+                    <MudText Typo="Typo.body2">Gérer tous les domaines d'applications.</MudText>
+                </div>
+            </div>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="6" md="4" lg="4" Class="mx-auto">
+        <MudPaper Class="p-4">
+            <div class="d-flex flex-row">
+                <MudAvatar Size="Size.Large" Style="background-color:transparent;">
+                    <MudIcon Icon="@Icons.Material.Filled.Work" Color="Color.Primary" Class="mx-4" Size="Size.Large" />
+                </MudAvatar>
+                <div class="ml-6">
+                    <MudLink Underline="Underline.None" Typo="Typo.h6" @onclick="@(()=>getMetier())" Style="cursor:pointer;">Métiers</MudLink>
+                    <MudText Typo="Typo.body2">Gérer tous les métiers d'applications.</MudText>
+                </div>
+            </div>
+        </MudPaper>
+    </MudItem>
+</MudGrid>

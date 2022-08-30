@@ -1,0 +1,31 @@
+﻿@inject IMetier metierService
+@inject ISnackbar snackBar
+<MudDialog>
+    <DialogContent>
+        @if (error)
+        {
+            <MudAlert Severity="@Severity">@message</MudAlert>
+        }
+        <EditForm Model="@Metier" OnValidSubmit="@Save">
+            <MudGrid>
+                <MudItem xs="12" sm="12" md="12">
+                    <MudTextField T="string"
+                                  Label="Metier"
+                                  Variant="Variant.Outlined"
+                                  @bind-Value="Metier.Title"
+                                  For="@(() => Metier.Title)" />
+                </MudItem>
+                <MudItem xl="12" xs="12" sm="12" md="12" Class="text-center my-4">
+                    @if (IsBusy)
+                    {
+                        <MudProgressLinear Color="Color.Secondary" Size="Size.Small" Indeterminate="true" Class="ml-auto" />
+                    }
+                    else
+                    {
+                        <MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" Disabled="@(IsBusy)" Class="ml-auto">Enregistrer</MudButton>
+                    }
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </DialogContent>
+</MudDialog>

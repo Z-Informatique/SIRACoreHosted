@@ -1,0 +1,92 @@
+﻿@page "/"
+@inject IApplications applicationService
+
+<Title Titre="Tableau de bord"/>
+
+<MudGrid>
+    <MudItem xs="12" sm="12" md="6" lg="6">
+        <MudGrid>
+            <MudItem xs="12" sm="12" md="6" lg="6">
+                <MudCard>
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h5" Class="m-0" Style="text-transform:uppercase;">Applications</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardMedia Image="images/ss.png" Height="200" Class="p-3" />
+                    <MudCardActions>
+                        <MudButton Style="font-weight:700" Variant="Variant.Text" Color="Color.Primary" Link="application">Tout afficher</MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+            <MudItem xs="12" sm="12" md="6" lg="6">
+                <MudCard>
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h5" Class="m-0" Style="text-transform:uppercase;">Base de données</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardMedia Image="images/db.png" Height="200" />
+                    <MudCardActions>
+                        <MudButton Variant="Variant.Text" Style="font-weight:700" Color="Color.Primary" Link="database">Tout afficher</MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+            <MudItem xs="12" sm="12" md="6" lg="6">
+                <MudCard>
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h5" Class="m-0" Style="text-transform:uppercase;">Serveurs</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardMedia Image="images/s.png" Height="200" />
+                    <MudCardActions>
+                        <MudButton Variant="Variant.Text" Style="font-weight:700" Color="Color.Primary" Link="server">Tout afficher</MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+            <MudItem xs="12" sm="12" md="6" lg="6">
+                <MudCard>
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h5" Class="m-0" Style="text-transform:uppercase;">Paramètres</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardMedia Image="images/de.png" Height="200" />
+                    <MudCardActions>
+                        <MudButton Variant="Variant.Text" Style="font-weight:700" Color="Color.Primary" Link="settings">Tout afficher</MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        </MudGrid>
+    </MudItem>
+    <MudItem xs="12" sm="12" md="6" lg="6">
+        <MudGrid>
+            @if (analyticsApps.Count > 0)
+            {
+                <MudItem xs="12" sm="12" md="12" lg="12">
+                    <MudText Typo="Typo.h5" Align="Align.Center">Répartition des applications</MudText>
+                    <RadzenChart>
+                        <RadzenDonutSeries Data="@analyticsApps" CategoryProperty="Etat" ValueProperty="Count">
+                            <TitleTemplate>
+                                <div class="rz-donut-content">
+                                    <div>Applications</div> 
+                                    <div>par localisation</div>
+                                </div>
+                            </TitleTemplate>
+                        </RadzenDonutSeries>
+                    </RadzenChart>
+                </MudItem>
+            }
+            @if (analyticsDomaine.Count > 0)
+            {
+                <MudItem xs="12" sm="12" md="12" lg="12">
+                    <MudText Typo="Typo.h5" Align="Align.Center">Applications par domaine</MudText>
+                    <RadzenChart>
+                        <RadzenPieSeries Data="@analyticsDomaine" Title="Applications par domaine" CategoryProperty="Etat" ValueProperty="Count" />
+                    </RadzenChart>
+                </MudItem>
+            }
+        </MudGrid>
+    </MudItem>
+</MudGrid>

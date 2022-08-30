@@ -1,0 +1,31 @@
+﻿@inject IMetier metierService
+
+@inject IDialogService dialogService
+@inject ISnackbar snackBar
+
+<MudDialog>
+    <DialogContent>
+        <MudToolBar Dense="true">
+            <MudSpacer />
+            <MudButton OnClick="(()=>AjoutModifier())" Variant="Variant.Filled" Size="Size.Small" Class="mr-2" StartIcon="@Icons.Outlined.Add" Color="Color.Secondary">Ajouter</MudButton>
+        </MudToolBar>
+        <GenericList Elements="Metiers" Loading="_loading">
+            <RadzenDataGrid @ref="grid" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@Metiers" TItem="Metier">
+                <Columns>
+                    <RadzenDataGridColumn TItem="Metier" Property="MetierId" Title="#ID" />
+                    <RadzenDataGridColumn TItem="Metier" Property="Title" Title="Titre" />
+                    <RadzenDataGridColumn TItem="Metier" Title="Actions" Width="50">
+                        <Template Context="detail">
+                            <MudMenu Size="Size.Small" Dense="true" Label="Menu" Variant="Variant.Filled" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Secondary">
+                                <MudMenuItem OnClick="@(() => AjoutModifier(detail))">Modifier</MudMenuItem>
+                                <MudDivider/>
+                                <MudMenuItem OnClick="@(() => Delete(detail))">Supprimer</MudMenuItem>
+                            </MudMenu>
+                        </Template>
+                    </RadzenDataGridColumn>
+                </Columns>
+            </RadzenDataGrid>
+        </GenericList>
+    </DialogContent>
+</MudDialog>
+

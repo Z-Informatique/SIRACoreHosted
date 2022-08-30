@@ -1,0 +1,75 @@
+﻿@page "/application"
+
+@inject IApplications applications
+@inject IServeur serveurService
+
+@inject IJSRuntime iJSRuntime
+@inject NavigationManager UriHelper
+@inject MudBlazor.IDialogService dialogService
+@inject ISnackbar snackbar
+
+@inject ExportFileService service
+
+<Title Titre="Toutes les applications"/>
+
+<MudPaper Elevation="25">
+    <MudToolBar Dense="true">
+        <MudText Typo="Typo.h6">Toutes les applications</MudText>
+        <MudSpacer />
+        <MudButton Disabled="@_loading" OnClick="(()=> DataAnalytique())" Variant="Variant.Filled" Class="mr-2" StartIcon="@Icons.Outlined.MultilineChart" Color="Color.Success">Données d'analyse</MudButton>
+        <MudButton Disabled="@_loading" OnClick="(() => AjoutModifier())" Variant="Variant.Filled" Class="mr-2" StartIcon="@Icons.Outlined.Add" Color="Color.Secondary">Ajouter</MudButton>
+        <MudMenu Disabled="@_loading" Dense="true" Label="Exporter" Variant="Variant.Filled" Color="Color.Dark" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Secondary">
+            <MudMenuItem OnClick="@(() => Export("excel"))">Excel</MudMenuItem>
+            <MudDivider/>
+            <MudMenuItem OnClick="@(() => Export("csv"))">CSV</MudMenuItem>
+        </MudMenu>
+    </MudToolBar>
+</MudPaper>
+
+<MudGrid Class="mt-3">
+    <MudItem xs="12" md="12" lg="12">
+        <GenericList Elements="_getApplication" Loading="_loading">
+            <RadzenDataGrid @ref="grid" AllowColumnPicking="true" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@_getApplication" TItem="Application">
+                <Columns>
+                    <RadzenDataGridColumn TItem="Application" Property="Titre" Title="Titre" Width="200px"/>
+                    <RadzenDataGridColumn TItem="Application" Property="Description" Title="Description" Width="250px" Visible="false"/>
+                    <RadzenDataGridColumn TItem="Application" Property="Domaine.DTitle" Title="Domaine" Width="200px"/>
+                    <RadzenDataGridColumn TItem="Application" Property="Metier.Title" Title="Metier" Width="100px"/>
+                    <RadzenDataGridColumn TItem="Application" Property="VersionApp" Title="version" Width="110px" TextAlign="TextAlign.Center"/>
+                    <RadzenDataGridColumn TItem="Application" Property="Architecture" Title="Architecture" Width="150px"/>
+                    <RadzenDataGridColumn TItem="Application" Property="Dependences" Title="Dépendances" Width="150px" Visible="false"/>
+                    <RadzenDataGridColumn TItem="Application" Property="Editeur" Title="Editeur" Width="110px" Visible="false"/>
+                    <RadzenDataGridColumn TItem="Application" Property="Ba" Title="Business A." Width="150px" Visible="false"/>
+                    <RadzenDataGridColumn TItem="Application" Property="Bm" Title="Business M." Width="150px" Visible="false"/>
+                    <RadzenDataGridColumn TItem="Application" Property="Escalade" Title="Escalade" Width="150px" Visible="false"/>
+                    <RadzenDataGridColumn TItem="Application" Property="Cout" Title="Cout" Width="100px" Visible="false"/>
+                    <RadzenDataGridColumn TItem="Application" Property="SiteApp" Title="Site" Width="100px" TextAlign="TextAlign.Center"/>
+                    <RadzenDataGridColumn TItem="Application" Property="NbreUser" Title="N. Utilisateur" Width="160px" TextAlign="TextAlign.Center"/>
+                    <RadzenDataGridColumn TItem="Application" Property="MigDate" Title="Date" Width="100px">
+                        <Template Context="date">
+                            @Convert.ToDateTime(date.MigDate).ToString("dd/MM/yyyy")
+                        </Template>
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn TItem="Application" Property="Etat" Title="Statut" Width="130px">
+                        <Template Context="statut">
+                            <MudChip Color="@setColor(Convert.ToInt32(statut.Etat))" Size="Size.Small" Class="mud-elevator-25">@setEtat(Convert.ToInt32(statut.Etat))</MudChip>
+                        </Template>
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn TItem="Application" Title="Actions" Width="120px">
+                        <Template Context="detail">
+                            <MudMenu Size="Size.Small" Dense="true" Label="Menu" Variant="Variant.Filled" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Secondary">
+                                <MudMenuItem OnClick="(() => ShowServerPage(detail))">Afficher les serveurs</MudMenuItem>
+                                <MudDivider/>
+                                <MudMenuItem OnClick="(() => DocPage(detail))">Documentation</MudMenuItem>
+                                <MudDivider/>
+                                <MudMenuItem OnClick="(() => AjoutModifier(detail))">Modifier</MudMenuItem>
+                                <MudDivider/>
+                                <MudMenuItem OnClick="(() => Delete(detail))">Supprimer</MudMenuItem>
+                            </MudMenu>
+                        </Template>
+                    </RadzenDataGridColumn>
+                </Columns>
+            </RadzenDataGrid>
+        </GenericList>
+    </MudItem>
+</MudGrid>

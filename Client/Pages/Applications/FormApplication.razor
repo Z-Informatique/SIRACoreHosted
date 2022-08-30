@@ -1,0 +1,196 @@
+﻿@inject IApplications applicationsService
+@inject IServeur serveurService
+@inject IDomaine domaineService
+@inject IMetier metierService
+
+@inject IDialogService dialogService
+@inject ISnackbar snackBar
+
+<MudDialog DisableSidePadding="true">
+    <DialogContent>
+        <MudContainer Style="max-height:600px; overflow-y: scroll">
+            @if (error)
+            {
+                <MudAlert Severity="@Severity">@message</MudAlert>
+            }
+            <EditForm Model="@Application" OnValidSubmit="@Save">
+                <MudGrid>
+                    <MudItem xs="12" sm="12" md="6">
+                        <MudTextField T="string"
+                                      Label="Nom de l'application"
+                                      Variant="Variant.Outlined"
+                                      @bind-Value="Application.Titre"
+                                      For="@(() => Application.Titre)" />
+                    </MudItem>
+                    <MudItem xs="12" sm="12" md="3">
+                        <MudTextField T="string"
+                                      Label="Version"
+                                      Variant="Variant.Outlined"
+                                      @bind-Value="Application.VersionApp"
+                                      For="@(() => Application.VersionApp)" />
+                    </MudItem>
+                    <MudItem xs="12" sm="12" md="3">
+                        <MudSelect T="string" @bind-Value="@Application.SiteApp" Label="Site" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentColor="Color.Secondary">
+                            <MudSelectItem Value="@("Local")"/>
+                            <MudSelectItem Value="@("Siège")"/>
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="12" sm="12" md="6">
+                        <MudTextField T="string"
+                                      Label="Description"
+                                      Lines="3"
+                                      Variant="Variant.Outlined"
+                                      @bind-Value="Application.Description"
+                                      For="@(() => Application.Description)" />
+                    </MudItem>
+                    <MudItem xs="12" sm="12" md="6">
+                        <MudTextField T="string"
+                                      Label="Dépendances"
+                                      Lines="3"
+                                      Variant="Variant.Outlined"
+                                      @bind-Value="Application.Dependences"
+                                      For="@(() => Application.Dependences)" />
+                    </MudItem>
+                    <MudItem xs="12" sm="12" md="8">
+                        <MudGrid>
+                            <MudItem xs="12" sm="12" md="6">
+                                <MudSelect T="string" @bind-Value="@Application.Architecture" Label="Architecture" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentColor="Color.Secondary">
+                                    <MudSelectItem Value="@("Client/Serveur")"/>
+                                    <MudSelectItem Value="@("Client lourd")"/>
+                                    <MudSelectItem Value="@("Client léger")"/>
+                                    <MudSelectItem Value="@("Client web")"/>
+                                </MudSelect>
+                            </MudItem>
+                            <MudItem xs="12" sm="12" md="6">
+                                <MudSelect T="string" @bind-Value="@Application.Cout" Label="Criticité" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentColor="Color.Secondary">
+                                    <MudSelectItem Value="@("Faible")"/>
+                                    <MudSelectItem Value="@("Moyen")"/>
+                                    <MudSelectItem Value="@("Elevé")"/>
+                                </MudSelect>
+                            </MudItem>
+                            <MudItem xs="12" sm="12" md="6">
+                                <MudSelect T="int" @bind-Value="@Application.DomaineId" Label="Domaine" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentColor="Color.Secondary">
+                                    <MudSelectItem Value="@Convert.ToInt32(0)">Choisir le domaine</MudSelectItem>
+                                    @foreach (var domaine in Domaines)
+                                    {
+                                        <MudSelectItem Value="@domaine.DomaineId">@domaine.DTitle</MudSelectItem>
+                                    }
+                                </MudSelect>
+                            </MudItem>
+                            <MudItem xs="12" sm="12" md="6">
+                                <MudSelect T="int" @bind-Value="@Application.MetierId" Label="Metier" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentColor="Color.Secondary">
+                                    <MudSelectItem Value="@Convert.ToInt32(0)">Choisir le metier</MudSelectItem>
+                                    @foreach (var metier in Metiers)
+                                    {
+                                        <MudSelectItem Value="@metier.MetierId">@metier.Title</MudSelectItem>
+                                    }
+                                </MudSelect>
+                            </MudItem>
+                            <MudItem xs="12" sm="12" md="4">
+                                <MudTextField T="string"
+                                              Label="Contact metier"
+                                              Variant="Variant.Outlined"
+                                              @bind-Value="Application.ContactUser"
+                                              For="@(() => Application.ContactUser)" />
+                            </MudItem>
+                            <MudItem xs="12" sm="12" md="4">
+                                <MudTextField T="int?"
+                                              Label="Nbre utilisateur"
+                                              Variant="Variant.Outlined"
+                                              @bind-Value="Application.NbreUser"
+                                              For="@(() => Application.NbreUser)" />
+                            </MudItem>
+                            <MudItem xs="12" sm="12" md="4">
+                                <MudSelect T="string" @bind-Value="@Application.Conformite" Label="Etat de conformité" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentColor="Color.Secondary">
+                                    <MudSelectItem Value="@("Conforme")"/>
+                                    <MudSelectItem Value="@("Non conforme")"/>
+                                </MudSelect>
+                            </MudItem>
+                            <MudItem xs="12" sm="12" md="6">
+                                <MudTextField T="string"
+                                              Label="Impact en cas d'indisponibilité"
+                                              Lines="3"
+                                              Variant="Variant.Outlined"
+                                              @bind-Value="Application.Impact"
+                                              For="@(() => Application.Impact)" />
+                            </MudItem>
+                            <MudItem xs="12" sm="12" md="6">
+                                <MudTextField T="string"
+                                              Label="Commentaire"
+                                              Lines="3"
+                                              Variant="Variant.Outlined"
+                                              @bind-Value="Application.Commentaire"
+                                              For="@(() => Application.Commentaire)" />
+                            </MudItem>
+                        </MudGrid>
+                    </MudItem>
+                    <MudItem xs="12" sm="12" md="4" lg="4">
+                           <GenericList Elements="Serveurs">
+                                <RadzenDataGrid @ref="grid" AllowRowSelectOnRowClick="@allowRowSelectOnRowClick" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="8"
+                                            AllowSorting="true" Data="@Serveurs" TItem="Serveur" ColumnWidth="200px"
+                                            SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@selectedItems1>
+                                    <Columns>
+                                        <RadzenDataGridColumn TItem="Serveur" Width="40px" Sortable="false" Filterable="false">
+                                            <HeaderTemplate>
+                                                <RadzenCheckBox TriState="false" TValue="bool" Value="@(Serveurs.Any(i => selectedItems1 != null && selectedItems1.Contains(i)))"
+                                                                Change="@(args => selectedItems1 = args ? Serveurs.ToList() : null)" />
+                                            </HeaderTemplate>
+                                            <Template Context="data">
+                                                <RadzenCheckBox TriState="false" Value="@(selectedItems1 != null && selectedItems1.Contains(data))" 
+                                                    TValue="bool" Change=@(args => { if(!allowRowSelectOnRowClick) { grid.SelectRow(data); }}) />
+                                            </Template>
+                                        </RadzenDataGridColumn>
+                                        <RadzenDataGridColumn TItem="Serveur" Property="Nom" Title="Choix du/des serveur/s" />
+                                    </Columns>
+                                </RadzenDataGrid>
+                           </GenericList>
+                           @if (selectedItems1.Count > 0)
+                            {
+                                <MudText Typo="Typo.h4">Serveur sélectionner</MudText>
+                                @foreach(var item in selectedItems1){
+                                    <code>@item.Nom, </code>
+                                }
+                            }
+                    </MudItem>
+                    <MudItem xs="12" sm="12" md="3">
+                        <MudTextField T="string"
+                                      Label="Business Analytic"
+                                      Variant="Variant.Outlined"
+                                      @bind-Value="Application.Ba"
+                                      For="@(() => Application.Ba)" />
+                    </MudItem>
+                
+                    <MudItem xs="12" sm="12" md="3">
+                        <MudTextField T="string"
+                                      Label="Editeur d'application"
+                                      Variant="Variant.Outlined"
+                                      @bind-Value="Application.Editeur"
+                                      For="@(() => Application.Editeur)" />
+                    </MudItem>
+                
+                    <MudItem xs="12" sm="12" md="3">
+                        <MudSelect T="string" @bind-Value="@Application.Etat" Label="Statut de l'application" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentColor="Color.Secondary">
+                            <MudSelectItem Value="@("0")">Migrée</MudSelectItem>
+                            <MudSelectItem Value="@("1")">Démobilisé</MudSelectItem>
+                            <MudSelectItem Value="@("2")">En ligne</MudSelectItem>
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="12" sm="12" md="3">
+                        <MudDatePicker Variant="Variant.Outlined" Label="Date" @bind-Date="Application.MigDate"/>
+                    </MudItem>
+                    <MudItem xl="12" xs="12" sm="12" md="12" Class="text-center my-4">
+                        @if (IsBusy)
+                        {
+                            <MudProgressLinear Color="Color.Secondary" Size="Size.Small" Indeterminate="true" Class="ml-auto" />
+                        }
+                        else
+                        {
+                            <MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" Disabled="@(IsBusy)" Class="ml-auto">Enregistrer</MudButton>
+                        }
+                    </MudItem>
+                </MudGrid>
+            </EditForm>
+        </MudContainer>
+        
+    </DialogContent>
+</MudDialog>

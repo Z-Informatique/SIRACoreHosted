@@ -1,0 +1,49 @@
+﻿@inject IVersionDb versionDbService
+@inject IDb dbService
+@inject ISnackbar snackBar
+
+<MudDialog>
+    <DialogContent>
+        @if (error)
+        {
+            <MudAlert Severity="@Severity">@message</MudAlert>
+        }
+        <EditForm Model="@VersionDb" OnValidSubmit="@Save">
+            <MudGrid>
+                <MudItem xs="12" sm="12" md="12">
+                    <MudSelect T="int" @bind-Value="@VersionDb.DbId" Label="Choisir un moteur de base de données" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentColor="Color.Secondary">
+                    <MudSelectItem Value="@Convert.ToInt32(0)">Moteur de base de données</MudSelectItem>
+                    @foreach (var db in Dbs)
+                    {
+                        <MudSelectItem Value="@db.Id">@db.Name</MudSelectItem>
+                    }
+                </MudSelect>
+                </MudItem>
+                <MudItem xs="12" sm="12" md="6">
+                    <MudTextField T="string"
+                                  Label="Noyau"
+                                  Variant="Variant.Outlined"
+                                  @bind-Value="VersionDb.Titre"
+                                  For="@(() => VersionDb.Titre)" />
+                </MudItem>
+                <MudItem xs="12" sm="12" md="6">
+                    <MudTextField T="string"
+                                  Label="Version"
+                                  Variant="Variant.Outlined"
+                                  @bind-Value="VersionDb.Noyau"
+                                  For="@(() => VersionDb.Noyau)" />
+                </MudItem>
+                <MudItem xl="12" xs="12" sm="12" md="12" Class="text-center my-4">
+                    @if (IsBusy)
+                    {
+                        <MudProgressLinear Color="Color.Secondary" Size="Size.Small" Indeterminate="true" Class="ml-auto" />
+                    }
+                    else
+                    {
+                        <MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" Disabled="@(IsBusy)" Class="ml-auto">Enregistrer</MudButton>
+                    }
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </DialogContent>
+</MudDialog>

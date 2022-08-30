@@ -1,0 +1,16 @@
+﻿@inject IServeur serveurService
+
+<MudDialog>
+    <DialogContent>
+        <RadzenChart>
+            <GenericList Elements="Serveurs" Loading="_loading">
+                <RadzenDataGrid @ref="grid" AllowColumnPicking="true" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@Serveurs" TItem="Serveur">
+                    <Columns>
+                        <RadzenDataGridColumn TItem="Serveur" Property="ServeurId" Title="#ID" Width="50px"/>
+                        <RadzenDataGridColumn TItem="Serveur" Property="Nom" Title="Nom du serveur"/>
+                    </Columns>
+                </RadzenDataGrid>
+            </GenericList>
+        </RadzenChart>
+    </DialogContent>
+</MudDialog>

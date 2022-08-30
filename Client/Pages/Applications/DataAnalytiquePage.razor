@@ -1,0 +1,24 @@
+﻿@inject IApplications applicationService
+
+<MudDialog>
+    <DialogContent>
+        <RadzenChart>
+            @if (!_loading)
+            {
+                <RadzenColumnSeries Data="@AnalyticsOnline" CategoryProperty="Year" Title="En ligne" LineType="LineType.Dashed" ValueProperty="Count" />
+                <RadzenColumnSeries Data="@AnalyticsMigre" CategoryProperty="Year" Title="Migrés" ValueProperty="Count" />
+                <RadzenColumnSeries Data="@AnalyticsDemo" CategoryProperty="Year" Title="Démobilisés" ValueProperty="Count" />
+                <RadzenColumnSeries Data="@AnalyticsMaintenance" CategoryProperty="Year" Title="En maintenance" ValueProperty="Count" />
+                <RadzenColumnOptions Radius="5" />
+                <RadzenValueAxis>
+                    <RadzenGridLines Visible="true" />
+                    <RadzenAxisTitle Text="Nombre d'application" />
+                </RadzenValueAxis>
+            }
+            else
+            {
+                <MudProgressCircular Indeterminate="true" Size="Size.Small" Color="Color.Secondary"/>
+            }
+        </RadzenChart>
+    </DialogContent>
+</MudDialog>
