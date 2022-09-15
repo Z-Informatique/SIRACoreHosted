@@ -36,7 +36,7 @@
                         <Columns>
                             <RadzenDataGridColumn TItem="Documentation" Property="Titre" Title="Titre">
                                 <Template Context="title">
-                                    <a download="@title.Titre" target="_blank" href="@GetLink(title)">@title.Titre</a>
+                                    <MudLink Target="_blank" Href="@GetLink(title)">@title.Titre</MudLink>
                                 </Template>
                             </RadzenDataGridColumn>
                             <RadzenDataGridColumn TItem="Documentation" Property="ChargerLe" Title="Date" Width="120px">

@@ -20,8 +20,28 @@ namespace TestCoreHosted.Client.Pages.Applications
         public List<Metier> Metiers { get; set; } = new List<Metier>();
         RadzenDataGrid<Serveur> grid;
         bool allowRowSelectOnRowClick = true;
+        private void VerifField()
+        {
+            
+            StateHasChanged();
+        }
         private async Task Save()
         {
+            if (string.IsNullOrEmpty(Application.Titre))
+            {
+                snackBar.Add("Veuillez renseigner le nom de cette application", Severity.Error);
+                return;
+            }
+            if (Application.DomaineId == 0)
+            {
+                snackBar.Add("Veuillez choisir le domaine correspondant", Severity.Error);
+                return;
+            }
+            if (Application.MetierId == 0)
+            {
+                snackBar.Add("Veuillez choisir le metier correspondant", Severity.Error);
+                return;
+            }
             var parameters = new DialogParameters();
             parameters.Add("Texte", "Vous n'avez sélectionner aucun serveur pour cette application. Souhaitez-vous continuer ?");
             parameters.Add("ButtonText", "Continuer");
@@ -29,7 +49,7 @@ namespace TestCoreHosted.Client.Pages.Applications
             parameters.Add("Variant", Variant.Text);
 
             Application application = new Application();
-
+            
             if (selectedItems1.Count == 0)
             {
                 var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
@@ -52,15 +72,23 @@ namespace TestCoreHosted.Client.Pages.Applications
                         Severity = Severity.Success;
                         error = true;
                     }
-                }
-                else
-                {
-                    MudDialogInstance.Close(DialogResult.Ok(true));
+
+                    if (application != null)
+                    {
+                        snackBar.Add(message, Severity);
+                        MudDialogInstance.Close(DialogResult.Ok(true));
+                    }
+                    else
+                    {
+                        message = "Une erreur s'est produite lors du traitement.";
+                        Severity = Severity.Error;
+                        snackBar.Add(message, Severity);
+                        error = true;
+                    }
                 }
             }
             else
             {
-
                 if (Application.AppId > 0)
                 {
                     Application.ServeurId = String.Join(",", getServeurListe());
@@ -77,19 +105,19 @@ namespace TestCoreHosted.Client.Pages.Applications
                     Severity = Severity.Success;
                     error = true;
                 }
-            }
 
-            if (application != null)
-            {
-                snackBar.Add(message, Severity);
-                MudDialogInstance.Close(DialogResult.Ok(true));
-            }
-            else
-            {
-                message = "Une erreur s'est produite lors du traitement.";
-                Severity = Severity.Error;
-                snackBar.Add(message, Severity);
-                error = true;
+                if (application != null)
+                {
+                    snackBar.Add(message, Severity);
+                    MudDialogInstance.Close(DialogResult.Ok(true));
+                }
+                else
+                {
+                    message = "Une erreur s'est produite lors du traitement.";
+                    Severity = Severity.Error;
+                    snackBar.Add(message, Severity);
+                    error = true;
+                }
             }
         }
         private List<string> getServeurListe()

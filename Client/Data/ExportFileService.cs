@@ -15,7 +15,7 @@ namespace TestCoreHosted.Client.Data
 
         public void Export(string table, string type, Query query = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"/export/TestCoreHosted/{table}/{type}") : $"/export/TestCoreHosted/{table}/{type}", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/TestCoreHosted/{table}/{type}") : $"export/TestCoreHosted/{table}/{type}", true);
         }
     }
 }
