@@ -1,0 +1,42 @@
+﻿@inject IBAnalytic BAnalyticService
+@inject IApplications applicationsService
+@inject IDialogService dialogService
+@inject ISnackbar snackBar
+
+
+
+<MudDialog DisableSidePadding="true">
+    <DialogContent>
+        <MudContainer Style="max-height:600px; overflow-y: scroll">
+            @if (error)
+            {
+                <MudAlert Severity="@Severity">@message</MudAlert>
+            }
+            <EditForm Model="@Banalytic" OnValidSubmit="@Save">
+                <MudGrid>
+                    <MudItem xs="12" sm="12" md="12">
+                        <MudSelect T="int" @bind-Value="@Banalytic.Id" Label="Business Analytic" AnchorOrigin="Origin.BottomCenter" Variant="MudBlazor.Variant.Outlined" AdornmentColor="Color.Secondary">
+                            <MudSelectItem Value="@Convert.ToInt32(0)">Choisir le B.A</MudSelectItem>
+                            @foreach (var bAnalytic in BAnalytics)
+                            {
+                                <MudSelectItem Value="@bAnalytic.Id">@bAnalytic.Nom</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+
+                    <MudItem xl="12" xs="12" sm="12" md="12" Class="text-center my-4">
+                        @if (IsBusy)
+                        {
+                            <MudProgressLinear Color="Color.Secondary" Size="Size.Small" Indeterminate="true" Class="ml-auto" />
+                        }
+                        else
+                        {
+                            <MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="MudBlazor.Variant.Filled" Color="Color.Secondary" Disabled="@(IsBusy)" Class="ml-auto">Enregistrer</MudButton>
+                        }
+                    </MudItem>
+
+                </MudGrid>
+            </EditForm>
+        </MudContainer>
+    </DialogContent>
+</MudDialog>

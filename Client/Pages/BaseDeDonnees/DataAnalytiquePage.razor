@@ -2,18 +2,23 @@
 
 <MudDialog>
     <DialogContent>
-        <RadzenChart>
+        <RadzenChart style="height: 400px">
             @if (!_loading)
             {
-                <RadzenColumnSeries Data="@AnalyticsOnline" CategoryProperty="Year" Title="En ligne" LineType="LineType.Dashed" ValueProperty="Count" />
-                <RadzenColumnSeries Data="@AnalyticsMigre" CategoryProperty="Year" Title="Migrés" ValueProperty="Count" />
-                <RadzenColumnSeries Data="@AnalyticsDemo" CategoryProperty="Year" Title="Démobilisés" ValueProperty="Count" />
-                <RadzenColumnSeries Data="@AnalyticsMaintenance" CategoryProperty="Year" Title="En maintenance" ValueProperty="Count" />
-                <RadzenColumnOptions Radius="5" />
+                <RadzenColumnSeries Data="@AnalyticsOnline" CategoryProperty="Year" Title="En ligne" LineType="LineType.Dashed" ValueProperty="Count">
+                    <RadzenSeriesDataLabels Visible="true" />
+                </RadzenColumnSeries>
+                <RadzenColumnSeries Data="@AnalyticsMigre" CategoryProperty="Year" Title="Migrée" ValueProperty="Count">
+                    <RadzenSeriesDataLabels Visible="true" />
+                </RadzenColumnSeries>
+                <RadzenColumnSeries Data="@AnalyticsDemo" CategoryProperty="Year" Title="Démobilisée" ValueProperty="Count">
+                    <RadzenSeriesDataLabels Visible="true" />
+                </RadzenColumnSeries>
                 <RadzenValueAxis>
                     <RadzenGridLines Visible="true" />
-                    <RadzenAxisTitle Text="Nombre de BD" />
+                    <RadzenAxisTitle Text="Nombre de base de données" />
                 </RadzenValueAxis>
+                <RadzenBarOptions Radius="5" />
             }
             else
             {

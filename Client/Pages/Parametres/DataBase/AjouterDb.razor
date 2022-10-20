@@ -12,7 +12,7 @@
                 <MudItem xs="12" sm="12" md="12">
                     <MudTextField T="string"
                                   Label="Titre"
-                                  Variant="Variant.Outlined"
+                                  Variant="MudBlazor.Variant.Outlined"
                                   @bind-Value="DbData.Name"
                                   For="@(() => DbData.Name)" />
                 </MudItem>
@@ -23,7 +23,7 @@
                     }
                     else
                     {
-                        <MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" Disabled="@(IsBusy)" Class="ml-auto">Enregistrer</MudButton>
+                        <MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="MudBlazor.Variant.Filled" Color="Color.Secondary" Disabled="@(IsBusy)" Class="ml-auto">Enregistrer</MudButton>
                     }
                 </MudItem>
             </MudGrid>

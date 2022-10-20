@@ -1,9 +1,11 @@
 ﻿using MudBlazor;
+using TestCoreHosted.Client.Pages.Parametres.Ba;
 using TestCoreHosted.Client.Pages.Parametres.DataBase;
 using TestCoreHosted.Client.Pages.Parametres.Domaines;
 using TestCoreHosted.Client.Pages.Parametres.Env;
 using TestCoreHosted.Client.Pages.Parametres.Metiers;
 using TestCoreHosted.Client.Pages.Parametres.SystemesExploitation;
+using TestCoreHosted.Client.Pages.Parametres.Utilisateurs;
 using TestCoreHosted.Client.Pages.Parametres.VersionDataBase;
 
 namespace TestCoreHosted.Client.Pages.Parametres
@@ -134,6 +136,44 @@ namespace TestCoreHosted.Client.Pages.Parametres
                 FullWidth = true
             };
             var dialog = dialogService.Show<ListeMetiers>("Metiers", options);
+            var result = await dialog.Result;
+
+            if (!result.Cancelled)
+            {
+
+            }
+            StateHasChanged();
+        }
+
+        async Task getUsers()
+        {
+            DialogOptions options = new DialogOptions
+            {
+                DisableBackdropClick = true,
+                CloseButton = true,
+                MaxWidth = MaxWidth.Medium,
+                FullWidth = true
+            };
+            var dialog = dialogService.Show<ListeUsers>("Utilisateurs", options);
+            var result = await dialog.Result;
+
+            if (!result.Cancelled)
+            {
+
+            }
+            StateHasChanged();
+        }
+
+        async Task getBa()
+        {
+            DialogOptions options = new DialogOptions
+            {
+                DisableBackdropClick = true,
+                CloseButton = true,
+                MaxWidth = MaxWidth.Small,
+                FullWidth = true
+            };
+            var dialog = dialogService.Show<ListeBA>("Business Analytics", options);
             var result = await dialog.Result;
 
             if (!result.Cancelled)

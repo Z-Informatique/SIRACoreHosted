@@ -10,8 +10,32 @@ namespace TestCoreHosted.Client.Pages.BaseDeDonnees
     {
         private bool _loading = false;
         RadzenDataGrid<DataBase> grid;
+        SearchModel SearchModel { get; set; } = new SearchModel();
         private List<DataBase> _getDataBases { get; set; } = new List<DataBase>();
+        private List<DataBase> _getDataBasesFilter { get; set; } = new List<DataBase>();
+        public string Search { get; set; }
+        void TextBoxChanged()
+        {
+            if (string.IsNullOrEmpty(SearchModel.Search))
+            {
+                snackbar.Add("Le champ recherche est vide", Severity.Error);
+                return;
+            }
+            if (_getDataBasesFilter.Count == 0)
+                _getDataBasesFilter = _getDataBases;
 
+            _getDataBases = _getDataBasesFilter.FindAll(x => x.DTitre.ToLower().Contains(SearchModel.Search.ToLower())).ToList();
+            StateHasChanged();
+        }
+        void RefreshList()
+        {
+            if (_getDataBasesFilter.Count > 0)
+            {
+                _getDataBases = _getDataBasesFilter;
+            }
+
+            StateHasChanged();
+        }
         public string setEtat(int Etat)
         {
             if (Etat.Equals(0))
@@ -103,7 +127,7 @@ namespace TestCoreHosted.Client.Pages.BaseDeDonnees
             parameters.Add("Texte", "Confirmer la suppression.");
             parameters.Add("ButtonText", "Supprimer");
             parameters.Add("Color", Color.Error);
-            parameters.Add("Variant", Variant.Text);
+            parameters.Add("Variant", MudBlazor.Variant.Text);
 
             var options = new MudBlazor.DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
             var dialog = dialogService.Show<MessageDialog>("Alerte !", parameters, options);
@@ -148,5 +172,10 @@ namespace TestCoreHosted.Client.Pages.BaseDeDonnees
 
             }
         }
+    }
+
+    public class SearchModel
+    {
+        public string Search { get; set; }
     }
 }

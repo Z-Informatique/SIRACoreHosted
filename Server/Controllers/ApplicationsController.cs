@@ -23,6 +23,7 @@ namespace TestCoreHosted.Server.Controllers
             var applications = await (from apps in _context.Applications
                                       join metier in _context.Metiers on apps.MetierId equals metier.MetierId
                                       join domaine in _context.Domaines on apps.DomaineId equals domaine.DomaineId
+                                      join ba in _context.Banalytics on apps.IdBa equals ba.Id
                                       orderby apps.Titre ascending
                                       select new Application
                                       {
@@ -62,10 +63,23 @@ namespace TestCoreHosted.Server.Controllers
                                               DTitle = domaine.DTitle,
                                               DomaineId = domaine.DomaineId,
                                           },
+                                          Banalytic = new Banalytic
+                                          {
+                                              Id = ba.Id,
+                                              Nom = ba.Nom
+                                          },
                                           OnlineDate = apps.OnlineDate
                                       }).ToListAsync();
             return applications;
         }
+
+        [HttpGet]
+        [Route("getListe")]
+        public async Task<ActionResult<IEnumerable<Application>>> getListe()
+        {
+            return await _context.Applications.ToListAsync();
+        }
+
         [HttpGet]
         [Route("CountAppsByLocation")]
         public async Task<int> CountAppsByLocation(string location)
@@ -196,6 +210,7 @@ namespace TestCoreHosted.Server.Controllers
             var application = await (from apps in _context.Applications
                                      join metier in _context.Metiers on apps.MetierId equals metier.MetierId
                                      join domaine in _context.Domaines on apps.DomaineId equals domaine.DomaineId
+                                     join ba in _context.Banalytics on apps.IdBa equals ba.Id
                                      where apps.AppId == id
                                      select new Application
                                      {
@@ -234,6 +249,11 @@ namespace TestCoreHosted.Server.Controllers
                                          {
                                              DTitle = domaine.DTitle,
                                              DomaineId = domaine.DomaineId,
+                                         },
+                                         Banalytic = new Banalytic
+                                         {
+                                             Id = ba.Id,
+                                             Nom = ba.Nom
                                          },
                                          OnlineDate = apps.OnlineDate
                                      }).FirstOrDefaultAsync();

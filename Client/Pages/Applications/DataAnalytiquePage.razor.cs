@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Radzen;
+using System.Globalization;
 using TestCoreHosted.Shared.Models;
+
 
 namespace TestCoreHosted.Client.Pages.Applications
 {
@@ -12,52 +15,51 @@ namespace TestCoreHosted.Client.Pages.Applications
         public List<Analytics> AnalyticsMigre { get; set; } = new List<Analytics>();
         public List<Analytics> AnalyticsDemo { get; set; } = new List<Analytics>();
         public List<Analytics> AnalyticsMaintenance { get; set; } = new List<Analytics>();
+
+
+        public List<Application> AppliOnline { get; set; } = new List<Application>();
+        public List<Application> AppliMigrate { get; set; } = new List<Application>();
+        public List<Application> AppliDemo { get; set; } = new List<Application>();
+        public List<Application> AppliMaintenance { get; set; } = new List<Application>();
+
+
         private bool _loading { get; set; } = false;
         async Task getData()
         {
             await Task.Delay(1000);
             _loading = true;
 
-            var servOnline = Applications.Where(x => x.Etat == "3").ToList().Take(5);
-            var servMigre = Applications.Where(x => x.Etat == "2").ToList().Take(5);
-            var servDemo = Applications.Where(x => x.Etat == "1").ToList().Take(5);
-            var servMaintenance = Applications.Where(x => x.Etat == "0").ToList().Take(5);
+            AppliOnline = Applications.Where(x => x.Etat == "2").ToList();
+            AppliMigrate = Applications.Where(x => x.Etat == "1").ToList();
+            AppliDemo = Applications.Where(x => x.Etat == "0").ToList();
+            //AppliMaintenance = Applications.Where(x => x.Etat == "3").ToList();
 
-            AnalyticsOnline = (from t in servOnline
+            AnalyticsOnline = (from t in AppliOnline
                                group t by new { t.MigDate.Value.Year }
                                 into grp
                                select new Analytics
                                {
-                                   Year = grp.Key.Year,
+                                   Year = grp.Key.Year.ToString(),
                                    Count = grp.Count()
-                               }).ToList();
+                               }).OrderByDescending(x => x.Year).Take(5).ToList();
 
-            AnalyticsMigre = (from t in servMigre
+            AnalyticsMigre = (from t in AppliMigrate
                               group t by new { t.MigDate.Value.Year }
                               into grp
                               select new Analytics
                               {
-                                  Year = grp.Key.Year,
+                                  Year = grp.Key.Year.ToString(),
                                   Count = grp.Count()
-                              }).ToList();
+                              }).OrderByDescending(x => x.Year).Take(5).ToList();
 
-            AnalyticsDemo = (from t in servDemo
+            AnalyticsDemo = (from t in AppliDemo
                              group t by new { t.MigDate.Value.Year }
                              into grp
                              select new Analytics
                              {
-                                 Year = grp.Key.Year,
+                                 Year = grp.Key.Year.ToString(),
                                  Count = grp.Count()
-                             }).ToList();
-
-            AnalyticsMaintenance = (from t in servMaintenance
-                                    group t by new { t.MigDate.Value.Year }
-                                    into grp
-                                    select new Analytics
-                                    {
-                                        Year = grp.Key.Year,
-                                        Count = grp.Count()
-                                    }).ToList();
+                             }).OrderByDescending(x => x.Year).Take(5).ToList();
             _loading = false;
         }
         protected override async Task OnInitializedAsync()
@@ -65,5 +67,7 @@ namespace TestCoreHosted.Client.Pages.Applications
             await getData();
             StateHasChanged();
         }
+
+        bool showDataLabels = true;
     }
 }

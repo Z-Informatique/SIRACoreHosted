@@ -89,7 +89,20 @@
             </div>
         </MudPaper>
     </MudItem>
-    <MudItem xs="12" sm="6" md="4" lg="4" Class="mx-auto">
+    <MudItem xs="12" sm="6" md="4" lg="4">
+        <MudPaper Class="p-4">
+            <div class="d-flex flex-row">
+                <MudAvatar Size="Size.Large" Style="background-color:transparent;">
+                    <MudIcon Icon="@Icons.Material.Filled.AccountTree" Color="Color.Primary" Class="mx-4" Size="Size.Large" />
+                </MudAvatar>
+                <div class="ml-6">
+                    <MudLink Underline="Underline.None" Typo="Typo.h6" @onclick="@(()=>getBa())" Style="cursor:pointer;">Business Analytics</MudLink>
+                    <MudText Typo="Typo.body2">Gestion des managers analystes.</MudText>
+                </div>
+            </div>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="6" md="4" lg="4">
         <MudPaper Class="p-4">
             <div class="d-flex flex-row">
                 <MudAvatar Size="Size.Large" Style="background-color:transparent;">
@@ -102,4 +115,17 @@
             </div>
         </MudPaper>
     </MudItem>
+    <MudItem xs="12" sm="6" md="4" lg="4">
+                <MudPaper Class="p-4">
+                    <div class="d-flex flex-row">
+                        <MudAvatar Size="Size.Large" Style="background-color:transparent;">
+                            <MudIcon Icon="@Icons.Material.Filled.AccountCircle" Color="Color.Primary" Class="mx-4" Size="Size.Large" />
+                        </MudAvatar>
+                        <div class="ml-6">
+                            <MudLink Underline="Underline.None" Typo="Typo.h6" @onclick="@(()=>getUsers())" Style="cursor:pointer;">Utilisateurs</MudLink>
+                            <MudText Typo="Typo.body2">Gérer tous les administrateurs.</MudText>
+                        </div>
+                    </div>
+                </MudPaper>
+            </MudItem>
 </MudGrid>

@@ -11,7 +11,7 @@
         <EditForm Model="@VersionDb" OnValidSubmit="@Save">
             <MudGrid>
                 <MudItem xs="12" sm="12" md="12">
-                    <MudSelect T="int" @bind-Value="@VersionDb.DbId" Label="Choisir un moteur de base de données" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentColor="Color.Secondary">
+                    <MudSelect T="int" @bind-Value="@VersionDb.DbId" Label="Choisir un moteur de base de données" AnchorOrigin="Origin.BottomCenter" Variant="MudBlazor.Variant.Outlined" AdornmentColor="Color.Secondary">
                     <MudSelectItem Value="@Convert.ToInt32(0)">Moteur de base de données</MudSelectItem>
                     @foreach (var db in Dbs)
                     {
@@ -22,14 +22,14 @@
                 <MudItem xs="12" sm="12" md="6">
                     <MudTextField T="string"
                                   Label="Noyau"
-                                  Variant="Variant.Outlined"
+                                  Variant="MudBlazor.Variant.Outlined"
                                   @bind-Value="VersionDb.Titre"
                                   For="@(() => VersionDb.Titre)" />
                 </MudItem>
                 <MudItem xs="12" sm="12" md="6">
                     <MudTextField T="string"
                                   Label="Version"
-                                  Variant="Variant.Outlined"
+                                  Variant="MudBlazor.Variant.Outlined"
                                   @bind-Value="VersionDb.Noyau"
                                   For="@(() => VersionDb.Noyau)" />
                 </MudItem>
@@ -40,7 +40,7 @@
                     }
                     else
                     {
-                        <MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" Disabled="@(IsBusy)" Class="ml-auto">Enregistrer</MudButton>
+                        <MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="MudBlazor.Variant.Filled" Color="Color.Secondary" Disabled="@(IsBusy)" Class="ml-auto">Enregistrer</MudButton>
                     }
                 </MudItem>
             </MudGrid>

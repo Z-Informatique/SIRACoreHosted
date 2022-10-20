@@ -10,6 +10,7 @@ namespace TestCoreHosted.Client.IServices
     public interface IApplications
     {
         public Task<List<Application>> GetAsync();
+        public Task<List<Application>> GetListeAsync();
         public Task<int> CountDataByLocation(string location);
         public Task<Application> GetAsyncItem(int id);
         public Task<Application> VerifDataByString(string data);

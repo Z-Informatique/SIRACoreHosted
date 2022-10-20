@@ -1,3 +1,5 @@
+using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +17,14 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
 builder.Services.AddMudServices();
+builder.Services.AddBlazoredLocalStorage();
+
+builder.Services.AddOptions();
+builder.Services.AddAuthorizationCore();
+builder.Services.AddScoped<StateProviderAuthentication>();
+builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<StateProviderAuthentication>());
+
+
 builder.Services.AddScoped<IApplications, ApplicationService>();
 builder.Services.AddScoped<IAppsModel, AppsModelService>();
 builder.Services.AddScoped<IDatabase, DatabaseService>();
@@ -27,6 +37,8 @@ builder.Services.AddScoped<IMetier, MetierService>();
 builder.Services.AddScoped<IOSystems, OSystemService>();
 builder.Services.AddScoped<ITypeOS, TypeOsService>();
 builder.Services.AddScoped<IVersionDb, VersionDbService>();
+builder.Services.AddScoped<IBAnalytic, BAnalyticService>();
+builder.Services.AddScoped<IUsers, UsersService>();
 //builder.Services.AddScoped<IUploadFile, UploadFile>();
 builder.Services.AddScoped<IHostingEnvironment, HostingEnvironment>();
 builder.Services.AddScoped<ExportFileService>();

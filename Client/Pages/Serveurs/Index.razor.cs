@@ -10,7 +10,10 @@ namespace TestCoreHosted.Client.Pages.Serveurs
     {
         private bool _loading = false;
         RadzenDataGrid<Serveur> grid;
+        SearchModel SearchModel { get; set; } = new SearchModel();
         public List<Serveur> _getServeurs { get; set; } = new List<Serveur>();
+        public List<Serveur> _getServeursFilter { get; set; } = new List<Serveur>();
+        public string Search { get; set; }
         public string setEtat(int Etat)
         {
             if (Etat.Equals(1))
@@ -63,7 +66,28 @@ namespace TestCoreHosted.Client.Pages.Serveurs
             await Load();
             StateHasChanged();
         }
+        void TextBoxChanged()
+        {
+            if (string.IsNullOrEmpty(SearchModel.Search))
+            {
+                snackbar.Add("Le champ recherche est vide", Severity.Error);
+                return;
+            }
+            if (_getServeursFilter.Count == 0)
+                _getServeursFilter = _getServeurs;
 
+            _getServeurs = _getServeursFilter.FindAll(x => x.Nom.ToLower().Contains(SearchModel.Search.ToLower())).ToList();
+            StateHasChanged();
+        }
+        void RefreshList()
+        {
+            if (_getServeursFilter.Count > 0)
+            {
+                _getServeurs = _getServeursFilter;
+            }
+
+            StateHasChanged();
+        }
         async Task AjoutModifier(Serveur serveur = null)
         {
             MudBlazor.DialogOptions options = new MudBlazor.DialogOptions
@@ -104,7 +128,7 @@ namespace TestCoreHosted.Client.Pages.Serveurs
             parameters.Add("Texte", "Confirmer la suppression.");
             parameters.Add("ButtonText", "Supprimer");
             parameters.Add("Color", Color.Error);
-            parameters.Add("Variant", Variant.Text);
+            parameters.Add("Variant", MudBlazor.Variant.Text);
 
             var options = new MudBlazor.DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
             var dialog = dialogService.Show<MessageDialog>("Alerte !", parameters, options);
@@ -150,5 +174,10 @@ namespace TestCoreHosted.Client.Pages.Serveurs
 
             }
         }
+    }
+
+    public class SearchModel
+    {
+        public string Search { get; set; }
     }
 }

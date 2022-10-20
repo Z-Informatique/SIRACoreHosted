@@ -12,17 +12,19 @@ namespace TestCoreHosted.Client.Pages.Applications
         private bool error { get; set; }
         public bool IsBusy { get; set; } = false;
         private string message { get; set; }
+        private int IdBa { get; set; }
         private Severity Severity { get; set; }
         private IList<Serveur> selectedItems1 { get; set; } = new List<Serveur>();
         [Parameter] public Application Application { get; set; } = new Application();
         public List<Serveur> Serveurs { get; set; } = new List<Serveur>();
         public List<Domaine> Domaines { get; set; } = new List<Domaine>();
         public List<Metier> Metiers { get; set; } = new List<Metier>();
+        public List<Banalytic> BAnalytics { get; set; } = new List<Banalytic>();
         RadzenDataGrid<Serveur> grid;
         bool allowRowSelectOnRowClick = true;
         private void VerifField()
         {
-            
+
             StateHasChanged();
         }
         private async Task Save()
@@ -42,6 +44,15 @@ namespace TestCoreHosted.Client.Pages.Applications
                 snackBar.Add("Veuillez choisir le metier correspondant", Severity.Error);
                 return;
             }
+            if (IdBa > 0 || IdBa != null)
+            {
+                Application.IdBa = IdBa;
+            }
+            else
+            {
+                snackBar.Add("Veuillez choisir l'analyste métier", Severity.Error);
+                return;
+            }
             var parameters = new DialogParameters();
             parameters.Add("Texte", "Vous n'avez sélectionner aucun serveur pour cette application. Souhaitez-vous continuer ?");
             parameters.Add("ButtonText", "Continuer");
@@ -49,7 +60,7 @@ namespace TestCoreHosted.Client.Pages.Applications
             parameters.Add("Variant", Variant.Text);
 
             Application application = new Application();
-            
+
             if (selectedItems1.Count == 0)
             {
                 var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
@@ -93,7 +104,7 @@ namespace TestCoreHosted.Client.Pages.Applications
                 {
                     Application.ServeurId = String.Join(",", getServeurListe());
                     application = await applicationsService.PutAsync(Application.AppId, Application);
-                    message = "Application mis à jour avec succès.";
+                    message = "Application mise à jour avec succès.";
                     Severity = Severity.Success;
                     error = true;
                 }
@@ -134,13 +145,15 @@ namespace TestCoreHosted.Client.Pages.Applications
             Serveurs = await serveurService.GetAsync();
             Domaines = await domaineService.GetAsync();
             Metiers = await metierService.GetAsync();
-
+            BAnalytics = await BAnalyticService.GetAsync();
             if (Application == null)
             {
                 Application.MigDate = DateTime.Today;
             }
             else
             {
+                if (Application.IdBa > 0 || Application.IdBa != null)
+                    IdBa = Application.IdBa ?? default;
                 if (!string.IsNullOrEmpty(Application.ServeurId))
                 {
                     List<string> results = Application.ServeurId.Split(',').ToList();

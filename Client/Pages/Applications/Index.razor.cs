@@ -9,7 +9,12 @@ namespace TestCoreHosted.Client.Pages.Applications
     public partial class Index
     {
         RadzenDataGrid<Application> grid;
+        SearchModel SearchModel { get; set; } = new SearchModel();
+        public string Search { get; set; }
         public List<Application> _getApplication { get; set; } = new List<Application>();
+        public List<Application> _getApplicationFilter { get; set; } = new List<Application>();
+        public List<Application> _getApplication1 { get; set; } = new List<Application>();
+        public List<Application> _getApplication2 { get; set; } = new List<Application>();
         private bool _loading;
         public string setEtat(int Etat)
         {
@@ -46,10 +51,50 @@ namespace TestCoreHosted.Client.Pages.Applications
         protected async Task Load()
         {
             _loading = true;
-            _getApplication = await applications.GetAsync();
+            _getApplication2 = await applications.GetListeAsync();
+            _getApplication1 = await applications.GetAsync();
+
+            if (_getApplication1.Count >= _getApplication2.Count)
+            {
+                _getApplication = _getApplication1;
+            }
+            else
+            {
+                foreach (var application in _getApplication2)
+                {
+                    if (application.IdBa == 0 || application.IdBa == null)
+                    {
+                        await UpdateBa(application);
+                        break;
+                    }
+                }
+            }
+
             _loading = false;
             StateHasChanged();
         }
+
+        private async Task UpdateBa(Application application)
+        {
+            MudBlazor.DialogOptions options = new MudBlazor.DialogOptions
+            {
+                DisableBackdropClick = true,
+                CloseButton = true,
+                MaxWidth = MaxWidth.Small,
+                FullWidth = true,
+            };
+            DialogParameters parameters = new DialogParameters();
+            parameters = new DialogParameters { ["Application"] = application };
+
+            var dialog = dialogService.Show<UpdateBaForm>("Business Analytic : " + application.Titre, parameters, options);
+            var result = await dialog.Result;
+
+            if (!result.Cancelled)
+            {
+                await Load();
+            }
+        }
+
         public void Export(string type)
         {
             service.Export("Applications", type, new Query()
@@ -58,6 +103,32 @@ namespace TestCoreHosted.Client.Pages.Applications
                 Filter = grid.Query.Filter,
                 Select = string.Join(",", grid.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
             });
+        }
+        void TextBoxChanged()
+        {
+            if (string.IsNullOrEmpty(SearchModel.Search))
+            {
+                snackbar.Add("Le champ recherche est vide", Severity.Error);
+                return;
+            }
+            if(_getApplicationFilter.Count == 0)
+                _getApplicationFilter = _getApplication;
+
+            _getApplication = _getApplicationFilter.FindAll(x => x.Titre.ToLower().Contains(SearchModel.Search.ToLower()) 
+            || x.Domaine.DTitle.ToLower().Contains(SearchModel.Search.ToLower()) 
+            || x.Metier.Title.ToLower().Contains(SearchModel.Search.ToLower())
+            || x.Architecture.ToLower().Contains(SearchModel.Search.ToLower())).ToList();
+
+            StateHasChanged();
+        }
+        void RefreshList()
+        {
+            if (_getApplicationFilter.Count > 0)
+            {
+                _getApplication = _getApplicationFilter;
+            }
+
+            StateHasChanged();
         }
         protected override async Task OnInitializedAsync()
         {
@@ -104,7 +175,7 @@ namespace TestCoreHosted.Client.Pages.Applications
             parameters.Add("Texte", "Confirmer la suppression.");
             parameters.Add("ButtonText", "Supprimer");
             parameters.Add("Color", Color.Error);
-            parameters.Add("Variant", Variant.Text);
+            parameters.Add("Variant", MudBlazor.Variant.Text);
 
             var options = new MudBlazor.DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
             var dialog = dialogService.Show<MessageDialog>("Alerte !", parameters, options);
@@ -204,5 +275,9 @@ namespace TestCoreHosted.Client.Pages.Applications
             }
 
         }
+    }
+    public class SearchModel
+    {
+        public string Search { get; set; }
     }
 }

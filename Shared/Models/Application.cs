@@ -18,6 +18,7 @@ namespace TestCoreHosted.Shared.Models
         public int AppId { get; set; }
         public int DomaineId { get; set; }
         public int MetierId { get; set; }
+        public int? IdBa { get; set; }
         public string ServeurId { get; set; }
         [Required(ErrorMessage = "Ce champ est requis.")]
         [DataType(DataType.Text)]
@@ -47,6 +48,7 @@ namespace TestCoreHosted.Shared.Models
 
         public virtual Domaine Domaine { get; set; }
         public virtual Metier Metier { get; set; }
+        public virtual Banalytic? Banalytic { get; set; }
         public virtual ICollection<AppCout> AppCouts { get; set; }
         public virtual ICollection<Documentation> Documentations { get; set; }
         public virtual ICollection<DataBase> DataBases { get; set; }

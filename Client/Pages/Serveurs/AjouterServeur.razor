@@ -16,18 +16,18 @@
                 <MudItem xs="12" sm="12" md="6">
                     <MudTextField T="string"
                                   Label="Nom du serveur"
-                                  Variant="Variant.Outlined"
+                                  Variant="MudBlazor.Variant.Outlined"
                                   @bind-Value="Serveur.Nom"
                                   For="@(() => Serveur.Nom)" />
                 </MudItem>
                 <MudItem xs="12" sm="12" md="6">
-                    <MudSelect T="string" @bind-Value="@Serveur.Categorie" Label="Choisir la catégorie" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentColor="Color.Secondary">
+                    <MudSelect T="string" @bind-Value="@Serveur.Categorie" Label="Choisir la catégorie" AnchorOrigin="Origin.BottomCenter" Variant="MudBlazor.Variant.Outlined" AdornmentColor="Color.Secondary">
                         <MudSelectItem Value="@("Physique")"/>
                         <MudSelectItem Value="@("Virtuel")"/>
                     </MudSelect>
                 </MudItem>
                 <MudItem xs="12" sm="12" md="6">
-                    <MudSelect T="string" @bind-Value="@Serveur.TypeServeur" Label="Type de serveur" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentColor="Color.Secondary">
+                    <MudSelect T="string" @bind-Value="@Serveur.TypeServeur" Label="Type de serveur" AnchorOrigin="Origin.BottomCenter" Variant="MudBlazor.Variant.Outlined" AdornmentColor="Color.Secondary">
                         <MudSelectItem Value="@("Applicatif")"/>
                         <MudSelectItem Value="@("Base de données")"/>
                         <MudSelectItem Value="@("Licences")"/>
@@ -36,7 +36,7 @@
                     </MudSelect>
                 </MudItem>
                 <MudItem xs="12" sm="12" md="6">
-                    <MudSelect T="int" @bind-Value="@Serveur.EnvId" Label="Environnement" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentColor="Color.Secondary">
+                    <MudSelect T="int" @bind-Value="@Serveur.EnvId" Label="Environnement" AnchorOrigin="Origin.BottomCenter" Variant="MudBlazor.Variant.Outlined" AdornmentColor="Color.Secondary">
                         <MudSelectItem Value="@Convert.ToInt32(0)">Choisir l'environnement</MudSelectItem>
                         @foreach (var env in Environnements)
                         {
@@ -45,7 +45,7 @@
                     </MudSelect>
                 </MudItem>
                 <MudItem xs="12" sm="12" md="6">
-                    <MudSelect T="int" @bind-Value="@IdTypeOs" Label="Système d'exploitation'" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentColor="Color.Secondary">
+                    <MudSelect T="int" @bind-Value="@IdTypeOs" Label="Système d'exploitation'" AnchorOrigin="Origin.BottomCenter" Variant="MudBlazor.Variant.Outlined" AdornmentColor="Color.Secondary">
                         <MudSelectItem Value="@Convert.ToInt32(0)">Choisir l'OS</MudSelectItem>
                         @foreach (var type in TypeOs)
                         {
@@ -54,7 +54,7 @@
                     </MudSelect>
                 </MudItem>
                 <MudItem xs="12" sm="12" md="6">
-                    <MudSelect T="int" @bind-Value="@Serveur.VersionOsId" Label="Version du système d'exploitation'" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentColor="Color.Secondary">
+                    <MudSelect T="int" @bind-Value="@Serveur.VersionOsId" Label="Version du système d'exploitation'" AnchorOrigin="Origin.BottomCenter" Variant="MudBlazor.Variant.Outlined" AdornmentColor="Color.Secondary">
                         <MudSelectItem Value="@Convert.ToInt32(0)">Choisir la version de l'OS</MudSelectItem>
                         @foreach (var oSystem in OSystems)
                         {
@@ -63,7 +63,7 @@
                     </MudSelect>
                 </MudItem>
                 <MudItem xs="12" sm="12" md="6">
-                    <MudSelect T="string" @bind-Value="@Serveur.Salle" Label="Salle" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentColor="Color.Secondary">
+                    <MudSelect T="string" @bind-Value="@Serveur.Salle" Label="Salle" AnchorOrigin="Origin.BottomCenter" Variant="MudBlazor.Variant.Outlined" AdornmentColor="Color.Secondary">
                         <MudSelectItem Value="@("Alpha")"/>
                         <MudSelectItem Value="@("Zik")"/>
                         <MudSelectItem Value="@("Km4")"/>
@@ -72,12 +72,12 @@
                 <MudItem xs="12" sm="12" md="6">
                     <MudTextField T="string"
                                   Label="Rack"
-                                  Variant="Variant.Outlined"
+                                  Variant="MudBlazor.Variant.Outlined"
                                   @bind-Value="Serveur.Rack"
                                   For="@(() => Serveur.Rack)" />
                 </MudItem>
                 <MudItem xs="12" sm="12" md="6">
-                    <MudSelect T="string" @bind-Value="@Serveur.Etat" Label="Etat du serveur" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentColor="Color.Secondary">
+                    <MudSelect T="string" @bind-Value="@Serveur.Etat" Label="Etat du serveur" AnchorOrigin="Origin.BottomCenter" Variant="MudBlazor.Variant.Outlined" AdornmentColor="Color.Secondary">
                         <MudSelectItem Value="@("0")">En maintenance</MudSelectItem>
                         <MudSelectItem Value="@("1")">Démobilisé</MudSelectItem>
                         <MudSelectItem Value="@("2")">Migré</MudSelectItem>
@@ -85,7 +85,7 @@
                     </MudSelect>
                 </MudItem>
                 <MudItem xs="12" sm="12" md="6">
-                    <MudDatePicker Variant="Variant.Outlined" Label="Date" @bind-Date="Serveur.MigDate"/>
+                    <MudDatePicker Variant="MudBlazor.Variant.Outlined" Label="Date" @bind-Date="Serveur.MigDate" />
                 </MudItem>
                 <MudItem xl="12" xs="12" sm="12" md="12" Class="text-center my-4">
                     @if (IsBusy)
@@ -94,7 +94,7 @@
                     }
                     else
                     {
-                        <MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" Disabled="@(IsBusy)" Class="ml-auto">Enregistrer</MudButton>
+                        <MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="MudBlazor.Variant.Filled" Color="Color.Secondary" Disabled="@(IsBusy)" Class="ml-auto">Enregistrer</MudButton>
                     }
                 </MudItem>
             </MudGrid>

@@ -1,0 +1,72 @@
+﻿@inject IUsers UserService
+@inject ISnackbar snackBar
+<MudDialog>
+    <DialogContent>
+        @if (error)
+        {
+            <MudAlert Severity="@Severity">@message</MudAlert>
+        }
+        <EditForm Model="@User" OnValidSubmit="@Save">
+            <MudGrid>
+                <MudItem xs="12" sm="12" md="6">
+                    <MudTextField T="string"
+                                  Label="Nom"
+                                  Variant="MudBlazor.Variant.Outlined"
+                                  @bind-Value="User.Nom"
+                                  For="@(() => User.Nom)" />
+                </MudItem>
+                <MudItem xs="12" sm="12" md="6">
+                    <MudTextField T="string"
+                                  Label="Prenom"
+                                  Variant="MudBlazor.Variant.Outlined"
+                                  @bind-Value="User.Prenom"
+                                  For="@(() => User.Prenom)" />
+                </MudItem>
+                <MudItem xs="12" sm="12" md="6">
+                    <MudTextField T="string"
+                                  Label="Téléphone"
+                                  Variant="MudBlazor.Variant.Outlined"
+                                  @bind-Value="User.Telephone"
+                                  For="@(() => User.Telephone)" />
+                </MudItem>
+                <MudItem xs="12" sm="12" md="6">
+                    <MudTextField T="string"
+                                  Label="Email"
+                                  Variant="MudBlazor.Variant.Outlined"
+                                  @bind-Value="User.Email"
+                                  For="@(() => User.Email)" />
+                </MudItem>
+                <MudItem xs="12" sm="12" md="12">
+                    <MudTextField T="string"
+                                  Label="Mot de passe"
+                                  InputType="InputType.Password"
+                                  Variant="MudBlazor.Variant.Outlined"
+                                  @bind-Value="User.Password"
+                                  For="@(() => User.Password)" />
+                </MudItem>
+                <MudItem xs="12" sm="12" md="6">
+                    <MudSelect T="int" @bind-Value="@User.Role" Label="Rôle" AnchorOrigin="Origin.BottomCenter" Variant="MudBlazor.Variant.Outlined" AdornmentColor="Color.Secondary">
+                        <MudSelectItem Value="@(0)">Administrateur</MudSelectItem>
+                        <MudSelectItem Value="@(1)">Super-administrateur</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="12" sm="12" md="6">
+                    <MudSelect T="int" @bind-Value="@User.Statut" Label="Rôle" AnchorOrigin="Origin.BottomCenter" Variant="MudBlazor.Variant.Outlined" AdornmentColor="Color.Secondary">
+                        <MudSelectItem Value="@(0)">Activé</MudSelectItem>
+                        <MudSelectItem Value="@(1)">Désactivé</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
+                <MudItem xl="12" xs="12" sm="12" md="12" Class="text-center my-4">
+                    @if (IsBusy)
+                    {
+                        <MudProgressLinear Color="Color.Secondary" Size="Size.Small" Indeterminate="true" Class="ml-auto" />
+                    }
+                    else
+                    {
+                        <MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="MudBlazor.Variant.Filled" Color="Color.Secondary" Disabled="@(IsBusy)" Class="ml-auto">Enregistrer</MudButton>
+                    }
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </DialogContent>
+</MudDialog>

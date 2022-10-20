@@ -55,5 +55,10 @@ namespace TestCoreHosted.Client.Services
         {
             return await restClient.GetDataByString(data);
         }
+
+        public async Task<List<Application>> GetListeAsync()
+        {
+            return await restClient.GetDataListByParameter("getListe");
+        }
     }
 }

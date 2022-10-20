@@ -14,6 +14,13 @@
         public const string osystems = BaseUrl + "osystems";
         public const string serveurs = BaseUrl + "serveurs";
         public const string typeos = BaseUrl + "typeos";
+        public const string BAnalytics = BaseUrl + "BAnalytics";
         public const string versiondbs = BaseUrl + "versiondbs";
+        public static string users = BaseUrl + "users";
+
+
+        public static string Admin = "Administrateur";
+
+        public static string SuperAdmin = "Administrateur";
     }
 }

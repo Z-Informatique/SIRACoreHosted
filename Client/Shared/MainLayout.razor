@@ -1,4 +1,8 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager navigationManager
+@inject StateProviderAuthentication authStateProvider
+@inject IDialogService dialogService
+@inject ISnackbar snackBar
 
 <MudThemeProvider Theme="_theme" />
 <MudDialogProvider />
@@ -11,6 +15,15 @@
         <MudText Typo="Typo.h4">SIRA</MudText>
         <MudSpacer/>
         <MudText Typo="Typo.subtitle1"><b>S</b>ystème d'<b>I</b>nformation et de <b>R</b>éférencement des <b>A</b>pplications</MudText>
+        <MudSpacer/>
+        @if(_show)
+        {
+            <MudText Typo="Typo.body2" Class="mr-4">USER ID : <strong>@Name</strong></MudText>
+            <MudButton Variant="MudBlazor.Variant.Filled" OnClick="@Logout" Size="Size.Small" Color="MudBlazor.Color.Default">Déconnexion</MudButton>
+        }else
+        {
+            <MudButton Variant="MudBlazor.Variant.Filled" Href="/auth/login" Size="Size.Small" Color="MudBlazor.Color.Secondary">Se connecter</MudButton>
+        }
     </MudAppBar>
     
     <MudDrawer @bind-Open="@_drawerOpen" ClipMode="DrawerClipMode.Always">

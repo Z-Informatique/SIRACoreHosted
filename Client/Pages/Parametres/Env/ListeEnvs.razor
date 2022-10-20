@@ -7,7 +7,7 @@
     <DialogContent>
         <MudToolBar Dense="true">
             <MudSpacer />
-            <MudButton OnClick="(()=>AjoutModifier())" Variant="Variant.Filled" Size="Size.Small" Class="mr-2" StartIcon="@Icons.Outlined.Add" Color="Color.Secondary">Ajouter</MudButton>
+            <MudButton OnClick="(()=>AjoutModifier())" Variant="MudBlazor.Variant.Filled" Size="Size.Small" Class="mr-2" StartIcon="@Icons.Outlined.Add" Color="Color.Secondary">Ajouter</MudButton>
         </MudToolBar>
         <GenericList Elements="Environnements" Loading="_loading">
             <RadzenDataGrid @ref="grid" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@Environnements" TItem="Environnement">
@@ -16,7 +16,7 @@
                     <RadzenDataGridColumn TItem="Environnement" Property="EnvType" Title="Titre" />
                     <RadzenDataGridColumn TItem="Environnement" Title="Actions" Width="50">
                         <Template Context="detail">
-                            <MudMenu Size="Size.Small" Dense="true" Label="Menu" Variant="Variant.Filled" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Secondary">
+                            <MudMenu Size="Size.Small" Dense="true" Label="Menu" Variant="MudBlazor.Variant.Filled" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Secondary">
                                 <MudMenuItem OnClick="@(() => AjoutModifier(detail))">Modifier</MudMenuItem>
                                 <MudDivider/>
                                 <MudMenuItem OnClick="@(() => Delete(detail))">Supprimer</MudMenuItem>

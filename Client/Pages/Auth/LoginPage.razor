@@ -1,0 +1,34 @@
+﻿@page "/auth/login"
+@layout LoginLayout
+
+@inject IUsers usersInterface
+@inject NavigationManager navigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject ISnackbar snackBar
+
+<Title Titre="Connexion"/>
+
+<MudText Typo="Typo.h6" Align="Align.Center" GutterBottom="true">Connexion</MudText>
+@if (ShowMessage)
+{
+    <MudAlert Severity="@Severity" Class="py-2 mb-4" ContentAlignment="HorizontalAlignment.Center" ShowCloseIcon="true" CloseIconClicked="(() => CloseMe(true))">@Message</MudAlert>
+}
+<MudTextField T="string" @bind-Value="@Email" Label="Adresse mail" Variant="MudBlazor.Variant.Outlined" Class="my-6"></MudTextField>
+<MudTextField @bind-Value="@Password" Label="Mot de passe" Variant="MudBlazor.Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="TogglePasswordVisibility" />
+
+<MudButton Class="mt-5" Disabled="@_processing" OnClick="LoginFunction" Variant="MudBlazor.Variant.Filled" Color="Color.Secondary" Size="Size.Large" FullWidth="true">
+    @if (_processing)
+    {
+        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+        <MudText Class="ms-2">Connexion encours...</MudText>
+    }
+    else
+    {
+        <MudText>Se connecter</MudText>
+    }
+</MudButton>
+
+<div Class="d-flex justify-space-between align-center mt-5 text-center">
+    <MudLink Color="Color.Default" Href="/auth/forgot-password">Mot de passe oublié?</MudLink>
+</div>

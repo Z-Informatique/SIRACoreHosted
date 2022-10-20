@@ -35,7 +35,20 @@ namespace TestCoreHosted.Client.Data
             List<T> taskModels = JsonConvert.DeserializeObject<List<T>>(json);
             return taskModels;
         }
-
+        public async Task<T> Login(string email, string password)
+        {
+            string result = await _client.GetStringAsync(_weburl + $"/Login?Email=" + email + "&" + "Password=" + password);
+            T t = JsonConvert.DeserializeObject<T>(result);
+            return t;
+        }
+        public async Task<T> ChangePassword(string email, string currentPassword, string password)
+        {
+            //var token = await localStorageService.GetItemAsync<string>("token");
+            //_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            string json = await _client.GetStringAsync(_weburl + $"/ChangePassword?email={email}&current={currentPassword}&password={password}");
+            T userModel = JsonConvert.DeserializeObject<T>(json);
+            return userModel;
+        }
         public async Task<T> GetDataByParameter(string url)
         {
             string json = await _client.GetStringAsync(_weburl + $"/{url}");

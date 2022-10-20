@@ -18,46 +18,46 @@ namespace TestCoreHosted.Client.Pages.Serveurs
             await Task.Delay(1000);
             _loading = true;
 
-            var servOnline = Serveurs.Where(x => x.Etat == "3").ToList().Take(5);
-            var servMigre = Serveurs.Where(x => x.Etat == "2").ToList().Take(5);
-            var servDemo = Serveurs.Where(x => x.Etat == "1").ToList().Take(5);
-            var servMaintenance = Serveurs.Where(x => x.Etat == "0").ToList().Take(5);
+            var servOnline = Serveurs.Where(x => x.Etat == "3").ToList();
+            var servMigre = Serveurs.Where(x => x.Etat == "2").ToList();
+            var servDemo = Serveurs.Where(x => x.Etat == "1").ToList();
+            var servMaintenance = Serveurs.Where(x => x.Etat == "0").ToList();
 
             AnalyticsOnline = (from t in servOnline
                                group t by new { t.MigDate.Value.Year }
                                 into grp
                                select new Analytics
                                {
-                                   Year = grp.Key.Year,
+                                   Year = grp.Key.Year.ToString(),
                                    Count = grp.Count()
-                               }).ToList();
+                               }).OrderByDescending(x => x.Year).Take(5).ToList();
 
             AnalyticsMigre = (from t in servMigre
                               group t by new { t.MigDate.Value.Year }
                               into grp
                               select new Analytics
                               {
-                                  Year = grp.Key.Year,
+                                  Year = grp.Key.Year.ToString(),
                                   Count = grp.Count()
-                              }).ToList();
+                              }).OrderByDescending(x => x.Year).Take(5).ToList();
 
             AnalyticsDemo = (from t in servDemo
                              group t by new { t.MigDate.Value.Year }
                              into grp
                              select new Analytics
                              {
-                                 Year = grp.Key.Year,
+                                 Year = grp.Key.Year.ToString(),
                                  Count = grp.Count()
-                             }).ToList();
+                             }).OrderByDescending(x => x.Year).Take(5).ToList();
 
             AnalyticsMaintenance = (from t in servMaintenance
                                     group t by new { t.MigDate.Value.Year }
                                     into grp
                                     select new Analytics
                                     {
-                                        Year = grp.Key.Year,
+                                        Year = grp.Key.Year.ToString(),
                                         Count = grp.Count()
-                                    }).ToList();
+                                    }).OrderByDescending(x => x.Year).Take(5).ToList();
             _loading = false;
         }
         protected override async Task OnInitializedAsync()

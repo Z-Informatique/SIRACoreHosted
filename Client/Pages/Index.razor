@@ -15,7 +15,7 @@
                     </MudCardHeader>
                     <MudCardMedia Image="images/ss.png" Height="200" Class="p-3" />
                     <MudCardActions>
-                        <MudButton Style="font-weight:700" Variant="Variant.Text" Color="Color.Primary" Link="application">Tout afficher</MudButton>
+                        <MudButton Style="font-weight:700" Variant="MudBlazor.Variant.Text" Color="Color.Primary" Link="application">Tout afficher</MudButton>
                     </MudCardActions>
                 </MudCard>
             </MudItem>
@@ -28,7 +28,7 @@
                     </MudCardHeader>
                     <MudCardMedia Image="images/db.png" Height="200" />
                     <MudCardActions>
-                        <MudButton Variant="Variant.Text" Style="font-weight:700" Color="Color.Primary" Link="database">Tout afficher</MudButton>
+                        <MudButton Variant="MudBlazor.Variant.Text" Style="font-weight:700" Color="Color.Primary" Link="database">Tout afficher</MudButton>
                     </MudCardActions>
                 </MudCard>
             </MudItem>
@@ -41,23 +41,27 @@
                     </MudCardHeader>
                     <MudCardMedia Image="images/s.png" Height="200" />
                     <MudCardActions>
-                        <MudButton Variant="Variant.Text" Style="font-weight:700" Color="Color.Primary" Link="server">Tout afficher</MudButton>
+                        <MudButton Variant="MudBlazor.Variant.Text" Style="font-weight:700" Color="Color.Primary" Link="server">Tout afficher</MudButton>
                     </MudCardActions>
                 </MudCard>
             </MudItem>
-            <MudItem xs="12" sm="12" md="6" lg="6">
-                <MudCard>
-                    <MudCardHeader>
-                        <CardHeaderContent>
-                            <MudText Typo="Typo.h5" Class="m-0" Style="text-transform:uppercase;">Paramètres</MudText>
-                        </CardHeaderContent>
-                    </MudCardHeader>
-                    <MudCardMedia Image="images/de.png" Height="200" />
-                    <MudCardActions>
-                        <MudButton Variant="Variant.Text" Style="font-weight:700" Color="Color.Primary" Link="settings">Tout afficher</MudButton>
-                    </MudCardActions>
-                </MudCard>
-            </MudItem>
+            <AuthorizeView>
+                <Authorized>
+                    <MudItem xs="12" sm="12" md="6" lg="6">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderContent>
+                                    <MudText Typo="Typo.h5" Class="m-0" Style="text-transform:uppercase;">Paramètres</MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardMedia Image="images/de.png" Height="200" />
+                            <MudCardActions>
+                                <MudButton Variant="MudBlazor.Variant.Text" Style="font-weight:700" Color="Color.Primary" Link="settings">Tout afficher</MudButton>
+                            </MudCardActions>
+                        </MudCard>
+                    </MudItem>
+                </Authorized>
+            </AuthorizeView>
         </MudGrid>
     </MudItem>
     <MudItem xs="12" sm="12" md="6" lg="6">

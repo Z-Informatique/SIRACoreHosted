@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using TestCoreHosted.Shared.Models;
-
-#nullable disable
 
 namespace TestCoreHosted.Server.Data
 {
@@ -16,31 +17,33 @@ namespace TestCoreHosted.Server.Data
         {
         }
 
-        public virtual DbSet<AppCout> AppCouts { get; set; }
-        public virtual DbSet<Application> Applications { get; set; }
-        public virtual DbSet<DataBase> Databases { get; set; }
-        public virtual DbSet<Db> Dbs { get; set; }
-        public virtual DbSet<Documentation> Documentations { get; set; }
-        public virtual DbSet<Domaine> Domaines { get; set; }
-        public virtual DbSet<Environnement> Environnements { get; set; }
-        public virtual DbSet<Metier> Metiers { get; set; }
-        public virtual DbSet<OSystem> OSystems { get; set; }
-        public virtual DbSet<Serveur> Serveurs { get; set; }
-        public virtual DbSet<TypeO> TypeOs { get; set; }
-        public virtual DbSet<VersionDb> VersionDbs { get; set; }
+        public virtual DbSet<AppCout> AppCouts { get; set; } = null!;
+        public virtual DbSet<Application> Applications { get; set; } = null!;
+        public virtual DbSet<Banalytic> Banalytics { get; set; } = null!;
+        public virtual DbSet<DataBase> Databases { get; set; } = null!;
+        public virtual DbSet<Db> Dbs { get; set; } = null!;
+        public virtual DbSet<Documentation> Documentations { get; set; } = null!;
+        public virtual DbSet<Domaine> Domaines { get; set; } = null!;
+        public virtual DbSet<Environnement> Environnements { get; set; } = null!;
+        public virtual DbSet<Metier> Metiers { get; set; } = null!;
+        public virtual DbSet<OSystem> OSystems { get; set; } = null!;
+        public virtual DbSet<Serveur> Serveurs { get; set; } = null!;
+        public virtual DbSet<TypeO> TypeOs { get; set; } = null!;
+        public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<VersionDb> VersionDbs { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
                 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-2FQ5EBT;Database=Cartographie;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=.;Database=Cartographie;Trusted_Connection=True;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+            modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");
 
             modelBuilder.Entity<AppCout>(entity =>
             {
@@ -154,11 +157,25 @@ namespace TestCoreHosted.Server.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_APPLICATIONS_DOMAINE");
 
+                entity.HasOne(d => d.Banalytic)
+                    .WithMany(p => p.Applications)
+                    .HasForeignKey(d => d.IdBa)
+                    .HasConstraintName("FK_APPLICATIONS_BAnalytics");
+
                 entity.HasOne(d => d.Metier)
                     .WithMany(p => p.Applications)
                     .HasForeignKey(d => d.MetierId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_APPLICATIONS_METIERS");
+            });
+
+            modelBuilder.Entity<Banalytic>(entity =>
+            {
+                entity.ToTable("BAnalytics");
+
+                entity.Property(e => e.Nom)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<DataBase>(entity =>
@@ -191,6 +208,12 @@ namespace TestCoreHosted.Server.Data
 
                 entity.Property(e => e.VersionDbId).HasColumnName("VersionDb_Id");
 
+                entity.HasOne(d => d.Application)
+                    .WithMany(p => p.DataBases)
+                    .HasForeignKey(d => d.AppId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DATA_BASE_APPLICATIONS");
+
                 entity.HasOne(d => d.Env)
                     .WithMany(p => p.Databases)
                     .HasForeignKey(d => d.EnvId)
@@ -208,12 +231,6 @@ namespace TestCoreHosted.Server.Data
                     .HasForeignKey(d => d.VersionDbId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DATA_BASE_VERSION_DB");
-
-                entity.HasOne(d => d.Application)
-                    .WithMany(p => p.DataBases)
-                    .HasForeignKey(d => d.AppId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DATA_BASE_APPLICATIONS");
             });
 
             modelBuilder.Entity<Db>(entity =>
@@ -231,11 +248,9 @@ namespace TestCoreHosted.Server.Data
 
                 entity.Property(e => e.ChargerLe).HasColumnType("datetime");
 
-                entity.Property(e => e.NameFile)
-                    .IsRequired();
+                entity.Property(e => e.NameFile).HasMaxLength(255);
 
-                entity.Property(e => e.Titre)
-                    .IsRequired();
+                entity.Property(e => e.Titre).HasMaxLength(255);
 
                 entity.HasOne(d => d.App)
                     .WithMany(p => p.Documentations)
@@ -372,10 +387,38 @@ namespace TestCoreHosted.Server.Data
                 entity.Property(e => e.TypeOsId).HasColumnName("TypeOs_Id");
 
                 entity.Property(e => e.TitreOs)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("Titre_os");
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Password)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ExpireToken).HasMaxLength(50);
+
+                entity.Property(e => e.Nom)
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Prenom)
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Telephone)
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Token).HasMaxLength(50);
             });
 
             modelBuilder.Entity<VersionDb>(entity =>
