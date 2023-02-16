@@ -21,10 +21,18 @@ namespace TestCoreHosted.Client.Pages.BaseDeDonnees
                 snackbar.Add("Le champ recherche est vide", Severity.Error);
                 return;
             }
+
             if (_getDataBasesFilter.Count == 0)
                 _getDataBasesFilter = _getDataBases;
 
-            _getDataBases = _getDataBasesFilter.FindAll(x => x.DTitre.ToLower().Contains(SearchModel.Search.ToLower())).ToList();
+            _getDataBases = _getDataBasesFilter.FindAll(
+                x => x.DTitre.ToLower().Contains(SearchModel.Search.ToLower())
+                || x.VersionDb.Noyau.ToLower().Contains(SearchModel.Search.ToLower())
+                || x.VersionDb.Titre.ToLower().Contains(SearchModel.Search.ToLower())
+                || x.Env.EnvType.ToLower().Contains(SearchModel.Search.ToLower())
+                || x.Application.Titre.ToLower().Contains(SearchModel.Search.ToLower())
+                || x.Serveur.Nom.ToLower().Contains(SearchModel.Search.ToLower())
+                ).ToList();
             StateHasChanged();
         }
         void RefreshList()
@@ -76,11 +84,11 @@ namespace TestCoreHosted.Client.Pages.BaseDeDonnees
         }
         public void Export(string type)
         {
-            service.Export("databases", type, new Query()
+            service.Export("expdatabase", type, new Query()
             {
                 OrderBy = grid.Query.OrderBy,
                 Filter = grid.Query.Filter,
-                Select = string.Join(",", grid.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+                //Select = string.Join(",", grid.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
             });
         }
         protected override async Task OnInitializedAsync()

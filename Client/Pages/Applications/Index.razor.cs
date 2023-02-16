@@ -117,6 +117,11 @@ namespace TestCoreHosted.Client.Pages.Applications
             _getApplication = _getApplicationFilter.FindAll(x => x.Titre.ToLower().Contains(SearchModel.Search.ToLower()) 
             || x.Domaine.DTitle.ToLower().Contains(SearchModel.Search.ToLower()) 
             || x.Metier.Title.ToLower().Contains(SearchModel.Search.ToLower())
+            || x.Banalytic.Nom.ToLower().Contains(SearchModel.Search.ToLower())
+            || x.VersionApp.ToLower().Contains(SearchModel.Search.ToLower())
+            || x.SiteApp.ToLower().Contains(SearchModel.Search.ToLower())
+            || x.Perimetre.ToLower().Contains(SearchModel.Search.ToLower())
+            || x.Bm.ToLower().Contains(SearchModel.Search.ToLower())
             || x.Architecture.ToLower().Contains(SearchModel.Search.ToLower())).ToList();
 
             StateHasChanged();

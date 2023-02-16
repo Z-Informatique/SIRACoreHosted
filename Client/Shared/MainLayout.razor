@@ -12,9 +12,9 @@
     <MudAppBar Elevation="25" Dense="false">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudDivider Vertical="true" Class="mr-3"/>
-        <MudText Typo="Typo.h4">SIRA</MudText>
+        <MudText Typo="Typo.h4">SIRA <span style="Color:#212121; font-size:12px; font-weight:700; font-style:italic;">V - 2.0.1</span></MudText>
         <MudSpacer/>
-        <MudText Typo="Typo.subtitle1"><b>S</b>ystème d'<b>I</b>nformation et de <b>R</b>éférencement des <b>A</b>pplications</MudText>
+        <MudText Typo="Typo.subtitle1"><b>S</b>ystème d'<b>I</b>nformation et de <b>R</b>éférencement des <b>A</b>pplications <span style="Color:#212121; font-size:12px; font-weight:700; font-style:italic;">V - 2.0.1</span></MudText>
         <MudSpacer/>
         @if(_show)
         {
@@ -32,6 +32,11 @@
     <MudMainContent>
         <MudContainer MaxWidth="MaxWidth.False" Class="mt-4">
             @Body
+
+            <div class="p-4">
+                <MudDivider />
+                <MudText Class="mt-3" Typo="Typo.caption">@DateTime.Now.Year &copy; SIRA - Version 2.0.1</MudText>
+            </div>
         </MudContainer>
     </MudMainContent>
 </MudLayout>
