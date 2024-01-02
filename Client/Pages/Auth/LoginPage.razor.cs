@@ -88,6 +88,7 @@ namespace TestCoreHosted.Client.Pages.Auth
                     snackBar.Add(Message, Severity);
                     return;
                 }
+                _processing = false;
                 StateHasChanged();
             }
         }

@@ -87,6 +87,66 @@ namespace TestCoreHosted.Server.Controllers
             return await _context.Applications.Where(x => x.SiteApp == location).CountAsync();
         }
 
+        [HttpGet]
+        [Route("getStatistiqueByLocation")]
+        public async Task<KeyValuePair<string, int>[]> getStatistiqueByLocation()
+        {
+            var locations = await _context.Applications.GroupBy(x => x.SiteApp).Select(y => y.First()).ToListAsync();
+            int[] numbers = new int[locations.Count];
+
+            Dictionary<string, int> keyValuePairs = new Dictionary<string, int>();
+
+            if (locations.Count > 0)
+            {
+                foreach (var location in locations)
+                {
+                    int result = await _context.Applications.Where(x => x.SiteApp == location.SiteApp).CountAsync();
+
+                    if (location.SiteApp == "Siège")
+                    {
+                        location.SiteApp = "Consolidée";
+                    }
+
+                    for (int i = 0; i < numbers.Length; i++)
+                    {
+                        keyValuePairs[location.SiteApp] = result;
+                    }
+                }
+            }
+
+            KeyValuePair<string, int>[] keyValueArray = keyValuePairs.ToArray();
+            return keyValueArray;
+        }
+        
+        [HttpGet]
+        [Route("getStatistiqueByDomaine")]
+        public async Task<KeyValuePair<string, int>[]> getStatistiqueByDomaine()
+        {
+            var domaines = await _context.Applications
+                            .Include(x => x.Domaine)
+                            .GroupBy(x => x.Domaine.DTitle).Select(y => y.First()).ToListAsync();
+            int[] numbers = new int[domaines.Count];
+
+            Dictionary<string, int> keyValuePairs = new Dictionary<string, int>();
+
+            if (domaines.Count > 0)
+            {
+                foreach (var domaine in domaines)
+                {
+                    int result = await _context.Applications.Where(x => x.Domaine.DTitle == domaine.Domaine.DTitle).CountAsync();
+
+                    for (int i = 0; i < numbers.Length; i++)
+                    {
+                        keyValuePairs[domaine.Domaine.DTitle] = result;
+                    }
+                }
+            }
+
+            KeyValuePair<string, int>[] keyValueArray = keyValuePairs.ToArray();
+            return keyValueArray;
+        }
+
+
 
         [HttpGet]
         [Route("GetAppsModel")]

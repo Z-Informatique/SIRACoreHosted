@@ -106,6 +106,12 @@ namespace TestCoreHosted.Client.Data
             int count = JsonConvert.DeserializeObject<int>(result);
             return count;
         }
+        public async Task<KeyValuePair<string, int>[]> getDataStatistique(string route)
+        {
+            string response = await _client.GetStringAsync(_weburl + $"/{route}");
+            var result = JsonConvert.DeserializeObject<KeyValuePair<string, int>[]>(response);
+            return result;
+        }
         public async Task<T> PostAsync(T t)
         {
             string json = JsonConvert.SerializeObject(t);

@@ -30,11 +30,13 @@ namespace TestCoreHosted.Client.Shared
         }
         async Task Logout()
         {
-            var parameters = new DialogParameters();
-            parameters.Add("Texte", "Voulez-vous vraiment vous déconnecter ?");
-            parameters.Add("ButtonText", "OUI");
-            parameters.Add("Color", Color.Error);
-            parameters.Add("Variant", Variant.Text);
+            var parameters = new DialogParameters
+            {
+                { "Texte", "Voulez-vous vraiment vous déconnecter ?" },
+                { "ButtonText", "OUI" },
+                { "Color", Color.Error },
+                { "Variant", Variant.Text }
+            };
 
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
             var dialog = dialogService.Show<MessageDialog>("Déconnexion !", parameters, options);

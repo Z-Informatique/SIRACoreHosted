@@ -12,18 +12,19 @@
     <MudAppBar Elevation="25" Dense="false">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudDivider Vertical="true" Class="mr-3"/>
-        <MudText Typo="Typo.h4">SIRA <span style="Color:#212121; font-size:12px; font-weight:700; font-style:italic;">V - 2.0.1</span></MudText>
+        <MudText Typo="Typo.h4">SIRA <AppVersion /></MudText>
         <MudSpacer/>
-        <MudText Typo="Typo.subtitle1"><b>S</b>ystème d'<b>I</b>nformation et de <b>R</b>éférencement des <b>A</b>pplications <span style="Color:#212121; font-size:12px; font-weight:700; font-style:italic;">V - 2.0.1</span></MudText>
+        <MudText Typo="Typo.subtitle1"><b>S</b>ystème d'<b>I</b>nformation et de <b>R</b>éférencement des <b>A</b>pplications <AppVersion /></MudText>
         <MudSpacer/>
         @if(_show)
         {
             <MudText Typo="Typo.body2" Class="mr-4">USER ID : <strong>@Name</strong></MudText>
-            <MudButton Variant="MudBlazor.Variant.Filled" OnClick="@Logout" Size="Size.Small" Color="MudBlazor.Color.Default">Déconnexion</MudButton>
+            <MudButton Variant="MudBlazor.Variant.Filled" OnClick="@Logout" Size="Size.Small" Color="MudBlazor.Color.Secondary">Déconnexion</MudButton>
         }else
         {
-            <MudButton Variant="MudBlazor.Variant.Filled" Href="/auth/login" Size="Size.Small" Color="MudBlazor.Color.Secondary">Se connecter</MudButton>
+            <MudButton Variant="MudBlazor.Variant.Filled" Href="/auth/login" Size="Size.Small" Color="MudBlazor.Color.Tertiary">Se connecter</MudButton>
         }
+        <MudButton Variant="MudBlazor.Variant.Filled" Href="#" Size="Size.Small" Color="MudBlazor.Color.Warning">Statistiques</MudButton>
     </MudAppBar>
     
     <MudDrawer @bind-Open="@_drawerOpen" ClipMode="DrawerClipMode.Always">
@@ -35,7 +36,7 @@
 
             <div class="p-4">
                 <MudDivider />
-                <MudText Class="mt-3" Typo="Typo.caption">@DateTime.Now.Year &copy; SIRA - Version 2.0.1</MudText>
+                <MudText Class="mt-3" Typo="Typo.caption">@DateTime.Now.Year &copy; SIRA - <AppVersion /></MudText>
             </div>
         </MudContainer>
     </MudMainContent>

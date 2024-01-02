@@ -76,7 +76,15 @@ namespace TestCoreHosted.Client.Pages.Serveurs
             if (_getServeursFilter.Count == 0)
                 _getServeursFilter = _getServeurs;
 
-            _getServeurs = _getServeursFilter.FindAll(x => x.Nom.ToLower().Contains(SearchModel.Search.ToLower())).ToList();
+            _getServeurs = _getServeursFilter.FindAll(
+                x => x.Nom.ToLower().Contains(SearchModel.Search.ToLower())
+                || x.Categorie.ToLower().Contains(SearchModel.Search.ToLower())
+                || x.TypeServeur.ToLower().Contains(SearchModel.Search.ToLower())
+                || x.Salle.ToLower().Contains(SearchModel.Search.ToLower())
+                || x.Rack.ToLower().Contains(SearchModel.Search.ToLower())
+                || x.Os.TitreOs.ToLower().Contains(SearchModel.Search.ToLower())
+                || x.VersionOs.VersionO.ToLower().Contains(SearchModel.Search.ToLower())
+                || x.Env.EnvType.ToLower().Contains(SearchModel.Search.ToLower())).ToList();
             StateHasChanged();
         }
         void RefreshList()

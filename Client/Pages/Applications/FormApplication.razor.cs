@@ -11,7 +11,7 @@ namespace TestCoreHosted.Client.Pages.Applications
         [CascadingParameter] MudDialogInstance MudDialogInstance { get; set; }
         private bool error { get; set; }
         public bool IsBusy { get; set; } = false;
-        private string message { get; set; }
+        private string? message { get; set; }
         private int IdBa { get; set; }
         private Severity Severity { get; set; }
         private IList<Serveur> selectedItems1 { get; set; } = new List<Serveur>();

@@ -12,6 +12,8 @@ namespace TestCoreHosted.Client.IServices
         public Task<List<Application>> GetAsync();
         public Task<List<Application>> GetListeAsync();
         public Task<int> CountDataByLocation(string location);
+        public Task<KeyValuePair<string, int>[]> getStatistiqueByLocation();
+        public Task<KeyValuePair<string, int>[]> getStatistiqueByDomaine();
         public Task<Application> GetAsyncItem(int id);
         public Task<Application> VerifDataByString(string data);
         public Task<bool> Delete(int id);

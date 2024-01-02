@@ -23,7 +23,7 @@ namespace TestCoreHosted.Client.Data
 
             LayoutProperties = new LayoutProperties()
             {
-                DefaultBorderRadius = "6px",
+                DefaultBorderRadius = "0px",
             };
 
             Typography = new Typography()

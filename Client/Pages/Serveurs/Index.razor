@@ -14,13 +14,13 @@
     <MudToolBar Dense="true">
         <MudText Typo="Typo.h6">Tous les serveurs</MudText>
         <MudSpacer />
-        <MudButton OnClick="(()=> DataAnalytique())" Variant="MudBlazor.Variant.Filled" Class="mr-2" StartIcon="@Icons.Outlined.MultilineChart" Color="Color.Success">Données d'analyse</MudButton>
+        <MudButton Size="Size.Small" OnClick="(()=> DataAnalytique())" Variant="MudBlazor.Variant.Filled" Class="mr-2" StartIcon="@Icons.Outlined.MultilineChart" Color="Color.Success">Données d'analyse</MudButton>
         <AuthorizeView>
             <Authorized>
-                <MudButton OnClick="(()=> AjoutModifier())" Variant="MudBlazor.Variant.Filled" Class="mr-2" StartIcon="@Icons.Outlined.Add" Color="Color.Secondary">Ajouter</MudButton>
+                <MudButton Size="Size.Small" OnClick="(()=> AjoutModifier())" Variant="MudBlazor.Variant.Filled" Class="mr-2" StartIcon="@Icons.Outlined.Add" Color="Color.Secondary">Ajouter</MudButton>
             </Authorized>
         </AuthorizeView>
-        <MudMenu Disabled="@_loading" Dense="true" Label="Exporter" Variant="MudBlazor.Variant.Filled" EndIcon="@Icons.Filled.KeyboardArrowDown" Color="Color.Dark" IconColor="Color.Secondary">
+        <MudMenu Size="Size.Small" Disabled="@_loading" Dense="true" Label="Exporter" Variant="MudBlazor.Variant.Filled" EndIcon="@Icons.Filled.KeyboardArrowDown" Color="Color.Dark" IconColor="Color.Secondary">
             <MudMenuItem OnClick="@(() => Export("excel"))">Excel</MudMenuItem>
             <MudDivider/>
             <MudMenuItem OnClick="@(() => Export("csv"))">CSV</MudMenuItem>
@@ -36,22 +36,24 @@
     </MudItem>
     <MudItem xs="12" sm="12" lg="4" md="4">
         <div class="ml-auto">
-            <MudButton Variant="MudBlazor.Variant.Filled" Color="Color.Primary" OnClick="@TextBoxChanged" Class="mr-2">Filtrer</MudButton>
-            <MudButton Variant="MudBlazor.Variant.Filled" Color="Color.Default" OnClick="@RefreshList">Actualiser</MudButton>
+            <MudButton Size="Size.Small" StartIcon="@Icons.Outlined.FilterAlt" Variant="MudBlazor.Variant.Filled" Color="Color.Info" OnClick="@TextBoxChanged" Class="mr-2">Filtrer</MudButton>
+            <MudButton Size="Size.Small" StartIcon="@Icons.Outlined.Refresh" Variant="MudBlazor.Variant.Filled" Color="Color.Default" OnClick="@RefreshList">Actualiser</MudButton>
         </div>
     </MudItem>
     <MudItem xs="12" md="12" lg="12">
         <GenericList Elements="_getServeurs" Loading="_loading">
-            <RadzenDataGrid @ref="grid" AllowColumnPicking="true" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@_getServeurs" TItem="Serveur">
+            <RadzenDataGrid @ref="grid" AllowColumnPicking="true" AllowFiltering="true" 
+                            AllowPaging="true" AllowSorting="true" Data="@_getServeurs" 
+                            TItem="Serveur" PageSize="25">
                 <Columns>
                     <RadzenDataGridColumn TItem="Serveur" Property="Nom" Title="Nom" />
-                    <RadzenDataGridColumn TItem="Serveur" Property="Categorie" Title="Categorie" />
-                    <RadzenDataGridColumn TItem="Serveur" Property="TypeServeur" Title="Type serveur" />
+                    <RadzenDataGridColumn TItem="Serveur" Property="Categorie" Title="Categorie" Width="135px" />
+                    <RadzenDataGridColumn TItem="Serveur" Property="TypeServeur" Title="Type serveur" Width="140px" />
                     <RadzenDataGridColumn TItem="Serveur" Property="Salle" Title="Salle" Width="100px"/>
-                    <RadzenDataGridColumn TItem="Serveur" Property="Rack" Title="Rack"/>
-                    <RadzenDataGridColumn TItem="Serveur" Property="Os.TitreOs" Title="Type OS"/>
-                    <RadzenDataGridColumn TItem="Serveur" Property="VersionOs.VersionO" Title="Version OS"/>
-                    <RadzenDataGridColumn TItem="Serveur" Property="Env.EnvType" Title="Environnement" />
+                    <RadzenDataGridColumn TItem="Serveur" Property="Rack" Title="Rack" Width="100px"/>
+                    <RadzenDataGridColumn TItem="Serveur" Property="Os.TitreOs" Title="Type OS" Width="135px" />
+                    <RadzenDataGridColumn TItem="Serveur" Property="VersionOs.VersionO" Title="Version OS" Width="150px" />
+                    <RadzenDataGridColumn TItem="Serveur" Property="Env.EnvType" Title="Environnement" Width="160px" />
                     <RadzenDataGridColumn TItem="Serveur" Property="MigDate" Title="Date" Width="100px">
                         <Template Context="date">
                             @Convert.ToDateTime(date.MigDate).ToString("dd/MM/yyyy")
@@ -62,9 +64,9 @@
                             <MudChip Color="@setColor(Convert.ToInt32(statut.Etat))" Size="Size.Small" Class="mud-elevator-25">@setEtat(Convert.ToInt32(statut.Etat))</MudChip>
                         </Template>
                     </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="Serveur" Title="Actions" Width="120px">
+                    <RadzenDataGridColumn TItem="Serveur" Title="Actions" Width="170px">
                         <Template Context="detail">
-                            <MudMenu Size="Size.Small" Dense="true" Label="Menu" Variant="MudBlazor.Variant.Filled" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Secondary">
+                            <MudMenu Size="Size.Small" Dense="true" Label="Plus d'options" Variant="MudBlazor.Variant.Filled" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Dark">
                                 <MudMenuItem OnClick="(()=>AjoutModifier(detail))">Modifier</MudMenuItem>
                                 <MudDivider/>
                                 <MudMenuItem OnClick="(() => Delete(detail))">Supprimer</MudMenuItem>

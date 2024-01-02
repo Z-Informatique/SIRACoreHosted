@@ -60,5 +60,14 @@ namespace TestCoreHosted.Client.Services
         {
             return await restClient.GetDataListByParameter("getListe");
         }
+
+        public async Task<KeyValuePair<string, int>[]> getStatistiqueByLocation()
+        {
+            return await restClient.getDataStatistique($"getStatistiqueByLocation");
+        }
+        public async Task<KeyValuePair<string, int>[]> getStatistiqueByDomaine()
+        {
+            return await restClient.getDataStatistique($"getStatistiqueByDomaine");
+        }
     }
 }

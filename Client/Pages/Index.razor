@@ -66,12 +66,12 @@
     </MudItem>
     <MudItem xs="12" sm="12" md="6" lg="6">
         <MudGrid>
-            @if (analyticsApps.Count > 0)
+            @if (keyValueArray?.Length > 0)
             {
                 <MudItem xs="12" sm="12" md="12" lg="12">
                     <MudText Typo="Typo.h5" Align="Align.Center">Répartition des applications</MudText>
                     <RadzenChart>
-                        <RadzenDonutSeries Data="@analyticsApps" CategoryProperty="Etat" ValueProperty="Count">
+                        <RadzenDonutSeries Data="@keyValueArray" CategoryProperty="Key" ValueProperty="Value">
                             <TitleTemplate>
                                 <div class="rz-donut-content">
                                     <div>Applications</div> 
@@ -82,12 +82,12 @@
                     </RadzenChart>
                 </MudItem>
             }
-            @if (analyticsDomaine.Count > 0)
+            @if (keyValueArrayDomaine?.Length > 0)
             {
                 <MudItem xs="12" sm="12" md="12" lg="12">
                     <MudText Typo="Typo.h5" Align="Align.Center">Applications par domaine</MudText>
                     <RadzenChart>
-                        <RadzenPieSeries Data="@analyticsDomaine" Title="Applications par domaine" CategoryProperty="Etat" ValueProperty="Count" />
+                        <RadzenPieSeries Data="@keyValueArrayDomaine" Title="Applications par domaine" CategoryProperty="Key" ValueProperty="Value" />
                     </RadzenChart>
                 </MudItem>
             }

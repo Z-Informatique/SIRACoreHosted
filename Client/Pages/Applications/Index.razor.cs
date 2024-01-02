@@ -114,15 +114,31 @@ namespace TestCoreHosted.Client.Pages.Applications
             if(_getApplicationFilter.Count == 0)
                 _getApplicationFilter = _getApplication;
 
-            _getApplication = _getApplicationFilter.FindAll(x => x.Titre.ToLower().Contains(SearchModel.Search.ToLower()) 
-            || x.Domaine.DTitle.ToLower().Contains(SearchModel.Search.ToLower()) 
-            || x.Metier.Title.ToLower().Contains(SearchModel.Search.ToLower())
-            || x.Banalytic.Nom.ToLower().Contains(SearchModel.Search.ToLower())
-            || x.VersionApp.ToLower().Contains(SearchModel.Search.ToLower())
-            || x.SiteApp.ToLower().Contains(SearchModel.Search.ToLower())
-            || x.Perimetre.ToLower().Contains(SearchModel.Search.ToLower())
-            || x.Bm.ToLower().Contains(SearchModel.Search.ToLower())
-            || x.Architecture.ToLower().Contains(SearchModel.Search.ToLower())).ToList();
+
+
+            if (SearchModel.Search.ToLower() == "en ligne")
+            {
+                _getApplication = _getApplicationFilter.FindAll(x => x.Etat == "2").ToList();
+            }
+            else if (SearchModel.Search.ToLower() == "démobilisé")
+            {
+                _getApplication = _getApplicationFilter.FindAll(x => x.Etat == "1").ToList();
+            }
+            else if (SearchModel.Search.ToLower() == "migrée" || SearchModel.Search.ToLower().Contains("migré"))
+            {
+                _getApplication = _getApplicationFilter.FindAll(x => x.Etat == "0").ToList();
+            }
+            else
+            {
+
+                _getApplication = _getApplicationFilter.FindAll(x => x.Titre.ToLower().Contains(SearchModel.Search.ToLower())
+                                                                || x.Domaine.DTitle.ToLower().Contains(SearchModel.Search.ToLower())
+                                                                || x.Metier.Title.ToLower().Contains(SearchModel.Search.ToLower())
+                                                                || x.Architecture.ToLower().Contains(SearchModel.Search.ToLower())
+                                                                || x.SiteApp.ToLower().Contains(SearchModel.Search.ToLower())
+                                                                || x.VersionApp.ToLower().Contains(SearchModel.Search.ToLower())
+                                                                ).ToList();
+            }
 
             StateHasChanged();
         }
@@ -140,7 +156,7 @@ namespace TestCoreHosted.Client.Pages.Applications
             await Load();
             StateHasChanged();
         }
-        async Task AjoutModifier(Application application = null)
+        async Task AjoutModifier(Application? application = null)
         {
             MudBlazor.DialogOptions options = new MudBlazor.DialogOptions
             {
@@ -176,11 +192,13 @@ namespace TestCoreHosted.Client.Pages.Applications
                 snackbar.Add("Votre sélection est vide", Severity.Info);
                 return;
             }
-            var parameters = new DialogParameters();
-            parameters.Add("Texte", "Confirmer la suppression.");
-            parameters.Add("ButtonText", "Supprimer");
-            parameters.Add("Color", Color.Error);
-            parameters.Add("Variant", MudBlazor.Variant.Text);
+            var parameters = new DialogParameters
+            {
+                { "Texte", "Confirmer la suppression." },
+                { "ButtonText", "Supprimer" },
+                { "Color", Color.Error },
+                { "Variant", MudBlazor.Variant.Text }
+            };
 
             var options = new MudBlazor.DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
             var dialog = dialogService.Show<MessageDialog>("Alerte !", parameters, options);
