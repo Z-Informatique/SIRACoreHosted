@@ -1,12 +1,6 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TestCoreHosted.Server.Data;
 using TestCoreHosted.Shared.Models;
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace TestCoreHosted.Server.Controllers
 {

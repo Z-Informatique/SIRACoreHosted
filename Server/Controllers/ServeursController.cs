@@ -2,9 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using TestCoreHosted.Server.Data;
 using TestCoreHosted.Shared.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace TestCoreHosted.Server.Controllers
 {
